@@ -1,0 +1,14 @@
+Removed Pin From Net: NetName=NRST Pin=C10-1
+Removed Pin From Net: NetName=VSS Pin=C10-2
+Removed Pin From Net: NetName=L2 Pin=P14-2
+Removed Pin From Net: NetName=N Pin=P14-3
+Change Component Footprint: Designator=P14 Old Footprint=TERMINAL BLOK 3 New Footprint=TERMINAL BLOK 2
+Change Component Comment : Designator=P14 Old Comment=TERMINAL BLOK 3 New Comment=TERMINAL BLOK 2
+Added Component: Designator=P15(TERMINAL BLOK 2)
+Add component. Clean all parameters for all variants
+Added Pin To Net: NetName=VSS Pin=C10-1
+Added Pin To Net: NetName=NRST Pin=C10-2
+Added Pin To Net: NetName=N Pin=P14-2
+Added Pin To Net: NetName=L2 Pin=P15-1
+Added Pin To Net: NetName=N Pin=P15-2
+Added Member To Class: ClassName=DE-020224_02 Member=Component P15 TERMINAL BLOK 2

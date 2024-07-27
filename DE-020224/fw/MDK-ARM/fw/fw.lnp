@@ -1,0 +1,26 @@
+--cpu Cortex-M3
+"fw\startup_stm32f103xb.o"
+"fw\tinyframe.o"
+"fw\main.o"
+"fw\stm32f1xx_it.o"
+"fw\stm32f1xx_hal_msp.o"
+"fw\stm32f1xx_hal_gpio_ex.o"
+"fw\stm32f1xx_hal_iwdg.o"
+"fw\stm32f1xx_hal.o"
+"fw\stm32f1xx_hal_rcc.o"
+"fw\stm32f1xx_hal_rcc_ex.o"
+"fw\stm32f1xx_hal_gpio.o"
+"fw\stm32f1xx_hal_dma.o"
+"fw\stm32f1xx_hal_cortex.o"
+"fw\stm32f1xx_hal_pwr.o"
+"fw\stm32f1xx_hal_flash.o"
+"fw\stm32f1xx_hal_flash_ex.o"
+"fw\stm32f1xx_hal_exti.o"
+"fw\stm32f1xx_hal_tim.o"
+"fw\stm32f1xx_hal_tim_ex.o"
+"fw\stm32f1xx_hal_uart.o"
+"fw\system_stm32f1xx.o"
+--library_type=microlib --strict --scatter "fw\fw.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "fw.map" -o fw\fw.axf
