@@ -1,0 +1,592 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<style type="text/css">
+		h1, h2, h3, h4, h5, h6 {
+			font-family : segoe ui;
+			color : black;
+			background-color : #EDE7D9;
+			padding: 0.3em;
+		}
+
+		h1 {
+			font-size: 1.2em;
+		}		
+
+		h2 {
+			font-size: 1.2em;
+		}
+
+		body {
+			font-family : segoe ui;
+		}
+
+		td, th {
+			padding: 0.5em;
+			text-align : left;
+			width: 10em;
+		}
+		th {
+			background-color : #EEEEEE;
+
+		}
+		th.column1, td.column1 {
+			text-align: left;
+			width : auto;
+		}
+		table {
+			width : 100%;
+			font-size: 0.9em;
+		}
+
+		.DRC_summary_header {
+			padding-bottom : 0.1em;
+			border : 0px solid black;
+			width: 100%;
+			align: left;
+		}
+
+		.DRC_summary_header_col1,
+		.DRC_summary_header_col2, 
+		.DRC_summary_header_col3 {
+			color : black;
+			font-size:100%;
+			padding : 0em;
+			padding-top : 0.2em;
+			padding-bottom 0.2em;
+			border : 0px solid black;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.DRC_summary_header_col1 {
+			font-weight: bold;
+			width: 9em;
+		}
+
+		.DRC_summary_header_col2 {
+			width: 0.1em;
+		
+		}
+
+		.DRC_summary_header_col3 {
+			width : auto;
+		}
+
+		.header_holder {
+		    Width = 100%;
+		    border = 0px solid green;
+		    padding = 0;
+		}
+
+
+		.front_matter, .front_matter_column1, .front_matter_column2, .front_matter_column3
+		{
+			left : 0;
+			top : 0;
+			padding: 0em;
+			padding-top : 0.1em;
+			border : 0px solid black;
+			width : 100%;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.front_matter_column1 {
+			width : 8em;
+			font-weight: bold;
+		}
+
+		.front_matter_column2 {
+			width: 0.1em;
+		}
+
+		.front_matter_column3 {
+			width : auto;
+		}
+
+		.total_column1, .total_column {
+			font-weight : bold;
+		}
+		.total_column1 {
+			text-align : left;
+		}
+		.warning, .error {
+			color : red;
+			font-weight : bold;
+		}
+		tr.onmouseout_odd {
+			background-color : #white;
+		}
+		tr.onmouseout_even { 
+			background-color : #FAFAFA;
+		}
+		tr.onmouseover_odd, tr.onmouseover_even { 
+			background-color : #EEEEEE;
+		} 
+		a:link, a:visited, .q a:link,.q a:active,.q {
+			color: #21489e; 
+		}
+		a:link.callback, a:visited.callback { 
+			color: #21489e;
+		}
+		a:link.customize, a:visited.customize {
+			color: #C0C0C0;
+			position: absolute; 
+			right: 10px;
+		}	
+		p.contents_level1 {
+			font-weight : bold;
+			font-size : 110%;
+			margin : 0.5em;
+		}
+		p.contents_level2 {
+			position : relative;
+			left : 20px;
+			margin : 0.5em;
+		}
+	</style><script type="text/javascript">
+		function coordToMils(coord) {
+			var number = coord / 10000;
+			
+			if (number != number.toFixed(3))
+				number = number.toFixed(3);
+
+			return number + 'mil'
+		}
+
+		function coordToMM(coord) {
+			var number = 0.0254 * coord / 10000;
+			
+			if (number != number.toFixed(4))
+				number = number.toFixed(4);
+			
+			return number + 'mm'
+		}
+	
+		function convertCoord(coordNode, units) {
+			for (var i = 0; i < coordNode.childNodes.length; i++) {
+				coordNode.removeChild(coordNode.childNodes[i]);
+			}
+
+			var coord = coordNode.getAttribute('value');
+			if (coord != null) {
+				if (units == 'mm') {
+					textNode = document.createTextNode(coordToMM(coord));
+					coordNode.appendChild(textNode);
+				} else if (units == 'mil') {
+					textNode = document.createTextNode(coordToMils(coord));		
+					coordNode.appendChild(textNode);	
+				}
+			}
+		}
+	
+		function convertUnits(unitNode, units) {
+			for (var i = 0; i < unitNode.childNodes.length; i++) {
+				unitNode.removeChild(unitNode.childNodes[i]);		
+			}
+		
+			textNode = document.createTextNode(units); 
+			unitNode.appendChild(textNode);
+		}
+	
+		function changeUnits(radio_input, units) {
+			if (radio_input.checked) {
+			
+				var elements = document.getElementsByName('coordinate');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertCoord(elements[i], units);
+					}
+				}
+	
+				var elements = document.getElementsByName('units');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertUnits(elements[i], units);
+					}
+				}
+			}
+		}
+	</script><title>Design Rule Verification Report</title>
+</head>
+<body onload=""><img ALT="Altium" src="
+			file://C:\Users\Public\Documents\Altium\AD24\Templates\AD_logo.png
+		"><h1>Design Rule Verification Report</h1>
+<table class="header_holder">
+<td class="column1">
+<table class="front_matter">
+<tr class="front_matter">
+<td class="front_matter_column1">Date:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">22. 8. 2024.</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">12:15:25</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Elapsed Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">00:00:02</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Filename:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3"><a href="file:///D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc" class="file"><acronym title="D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc">D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc</acronym></a></td>
+</tr>
+</table>
+</td>
+<td class="column2">
+<table class="DRC_summary_header">
+<tr>
+<td class="DRC_summary_header_col1">Warnings:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3">0</td></tr>
+<tr>
+<td class="DRC_summary_header_col1">Rule Violations:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3" style="color : red">76</td></tr>
+</table>
+</td>
+</table><a name="ID44COAMZCSP0MOIO2CDGKTGB5CPJLX30MLJA5MVNBZFJNGAFJ2WYJ"><h2>Summary</h2></a><table>
+<tr>
+<th class="column1">Warnings</th>
+<th class="column2">Count</th>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">0</td>
+</tr>
+</table><br><table>
+<tr>
+<th class="column1">Rule Violations</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID1RLIHL1Z3B4JGIPGICDIRFP4HFHHZ1ZGJUBOBCMOPCM0WEHGZXYE">Clearance Constraint (Gap=8mil) (OnLayer('Bottom Layer')),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDBUW03G4EZZK5R3NL5FDBN5OVIZALG2MVVEP1ONS3EJ4EB3KRKMI">Clearance Constraint (Gap=8mil) (OnLayer('Top Layer')),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDT2WSEXNMS5O0FJZADIV5RISRKMJPWKTUOWPHTZG3WBDS4MSB2JY">Clearance Constraint (Gap=7.874mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDHE1HHLH0TRQGGVKPJMRLOKN1OD2V0GJHXKJPOYZDMAJUNCGEK">Clearance Constraint (Gap=7.874mil) (All),(All)</a></td>
+<td class="column2">20</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID4A1IHNIFOHVYJTH3DA2RCZ5UGOKPP0ZOA0WSC5PVUKLG4PECT0QM">Short-Circuit Constraint (Allowed=No) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID1IGT522FVHO5ILAXCI1KJ1V4M5FVOZI5BXRQIGCQ2RMRXCWAXF">Un-Routed Net Constraint ( (All) )</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDLOFHXU4EHC13HPDILWRIOXXPIKHTAOIRSETFJSOAK1FOOWCL0UPI">Modified Polygon (Allow modified: No), (Allow shelved: No)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDZAH4A14PNPWWD2TWOVJ5MJVPCC2JLOKEKIPE1AKQOXZ4TYQAB0HE">Width Constraint (Min=3.5mil) (Max=100mil) (Preferred=15mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDVI45UQNBVRYXNQ5S2THI2WHEKDIKVI1UUGJRATCYBDM4MHZOC34K">Routing Topology Rule(Topology=Shortest) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID3GZKUZLSSKC2DRKWF1K1NU4VCIYDJCANARS1OQKASOHMPTCJPB0D">Power Plane Connect Rule(Relief Connect )(Expansion=20mil) (Conductor Width=10mil) (Air Gap=10mil) (Entries=4) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDVJ4FFCACFTY1MN3Z410ISRF3MIXXW1MMFOOKN2PNE1S5YQJJCP4G">Minimum Annular Ring (Minimum=5.118mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDTAXQMDVE3SE5LVGICN0II45HZDTYX2LJBOH3BDGSZ5BU4CKG3GT">Hole Size Constraint (Min=7.874mil) (Max=248.031mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDD5M33OCRXR5LMXBWMPMYAXGHGOJ2R4AYYT3U4ZEMNTGLXPB3SRNC">Hole To Hole Clearance (Gap=10mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDVJTBGUWSXQEVJN2HT03QXKVJSFYV0R1LXM0HEMMIICGXYOXFTWBN">Minimum Solder Mask Sliver (Gap=3.937mil) (All),(All)</a></td>
+<td class="column2">39</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDP34YHZ55PHQTD50XJUZV4L515NXAJ5OQTW0PU2HKZHSWCB22GMBG">Silk To Solder Mask (Clearance=3.937mil) (IsPad),(All)</a></td>
+<td class="column2">16</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDRNMK3SHEHOBSNBE0USRU3HQUZKXZ2BK4GYTSMOPTRQIH02O5RGFH">Silk to Silk (Clearance=3.937mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDHB2FZ02MKBBEMQDDIDDSWW2ETCUUE0FXO53KLYF5X5J5N05MOTYI">Net Antennae (Tolerance=0mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDUS0MPSQGI3WCPCLGN0BIZJOLSKGINR41FMJDQQMIKSVBFK0B3XAB">Board Clearance Constraint (Gap=0mil) (All)</a></td>
+<td class="column2">1</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDVYZLXSIHBSWNYQMTMIJWUBU4JH13KXDJW5ZHAI5SSLKBGCKHW0E">Height Constraint (Min=0mil) (Max=1000mil) (Prefered=500mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">76</td>
+</tr>
+</table><br><a name="IDHE1HHLH0TRQGGVKPJMRLOKN1OD2V0GJHXKJPOYZDMAJUNCGEK"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Clearance Constraint (Gap=7.874mil) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2872.833mil|Location2.X=2877.167mil|Location1.Y=2077.833mil|Location2.Y=2082.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2872.833mil|Location2.X=2877.167mil|Location1.Y=2077.833mil|Location2.Y=2082.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q1-2(1940mil,1030mil) on Top Layer And Via (1875mil,1080mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2872.833mil|Location2.X=2877.167mil|Location1.Y=2167.833mil|Location2.Y=2172.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2872.833mil|Location2.X=2877.167mil|Location1.Y=2167.833mil|Location2.Y=2172.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q1-2(1940mil,1030mil) on Top Layer And Via (1875mil,1170mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2872.833mil|Location2.X=2877.167mil|Location1.Y=1897.833mil|Location2.Y=1902.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2872.833mil|Location2.X=2877.167mil|Location1.Y=1897.833mil|Location2.Y=1902.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q1-2(1940mil,1030mil) on Top Layer And Via (1875mil,900mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2872.833mil|Location2.X=2877.167mil|Location1.Y=1987.833mil|Location2.Y=1992.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2872.833mil|Location2.X=2877.167mil|Location1.Y=1987.833mil|Location2.Y=1992.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q1-2(1940mil,1030mil) on Top Layer And Via (1875mil,990mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2957.833mil|Location2.X=2962.167mil|Location1.Y=2077.833mil|Location2.Y=2082.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2957.833mil|Location2.X=2962.167mil|Location1.Y=2077.833mil|Location2.Y=2082.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q1-2(1940mil,1030mil) on Top Layer And Via (1960mil,1080mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2957.833mil|Location2.X=2962.167mil|Location1.Y=2167.833mil|Location2.Y=2172.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2957.833mil|Location2.X=2962.167mil|Location1.Y=2167.833mil|Location2.Y=2172.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q1-2(1940mil,1030mil) on Top Layer And Via (1960mil,1170mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2957.833mil|Location2.X=2962.167mil|Location1.Y=1897.833mil|Location2.Y=1902.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2957.833mil|Location2.X=2962.167mil|Location1.Y=1897.833mil|Location2.Y=1902.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q1-2(1940mil,1030mil) on Top Layer And Via (1960mil,900mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2957.833mil|Location2.X=2962.167mil|Location1.Y=1987.833mil|Location2.Y=1992.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2957.833mil|Location2.X=2962.167mil|Location1.Y=1987.833mil|Location2.Y=1992.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q1-2(1940mil,1030mil) on Top Layer And Via (1960mil,990mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3042.833mil|Location2.X=3047.167mil|Location1.Y=2077.833mil|Location2.Y=2082.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3042.833mil|Location2.X=3047.167mil|Location1.Y=2077.833mil|Location2.Y=2082.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q1-2(1940mil,1030mil) on Top Layer And Via (2045mil,1080mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3042.833mil|Location2.X=3047.167mil|Location1.Y=2167.833mil|Location2.Y=2172.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3042.833mil|Location2.X=3047.167mil|Location1.Y=2167.833mil|Location2.Y=2172.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q1-2(1940mil,1030mil) on Top Layer And Via (2045mil,1170mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3042.833mil|Location2.X=3047.167mil|Location1.Y=1897.833mil|Location2.Y=1902.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3042.833mil|Location2.X=3047.167mil|Location1.Y=1897.833mil|Location2.Y=1902.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q1-2(1940mil,1030mil) on Top Layer And Via (2045mil,900mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3042.833mil|Location2.X=3047.167mil|Location1.Y=1987.833mil|Location2.Y=1992.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3042.833mil|Location2.X=3047.167mil|Location1.Y=1987.833mil|Location2.Y=1992.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q1-2(1940mil,1030mil) on Top Layer And Via (2045mil,990mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2972.833mil|Location2.X=2977.167mil|Location1.Y=1412.833mil|Location2.Y=1417.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2972.833mil|Location2.X=2977.167mil|Location1.Y=1412.833mil|Location2.Y=1417.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q2-2(1936.732mil,550mil) on Top Layer And Via (1975mil,415mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2972.833mil|Location2.X=2977.167mil|Location1.Y=1502.833mil|Location2.Y=1507.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2972.833mil|Location2.X=2977.167mil|Location1.Y=1502.833mil|Location2.Y=1507.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q2-2(1936.732mil,550mil) on Top Layer And Via (1975mil,505mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2972.833mil|Location2.X=2977.167mil|Location1.Y=1592.833mil|Location2.Y=1597.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2972.833mil|Location2.X=2977.167mil|Location1.Y=1592.833mil|Location2.Y=1597.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q2-2(1936.732mil,550mil) on Top Layer And Via (1975mil,595mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2972.833mil|Location2.X=2977.167mil|Location1.Y=1682.833mil|Location2.Y=1687.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2972.833mil|Location2.X=2977.167mil|Location1.Y=1682.833mil|Location2.Y=1687.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q2-2(1936.732mil,550mil) on Top Layer And Via (1975mil,685mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3057.833mil|Location2.X=3062.167mil|Location1.Y=1412.833mil|Location2.Y=1417.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3057.833mil|Location2.X=3062.167mil|Location1.Y=1412.833mil|Location2.Y=1417.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q2-2(1936.732mil,550mil) on Top Layer And Via (2060mil,415mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3057.833mil|Location2.X=3062.167mil|Location1.Y=1502.833mil|Location2.Y=1507.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3057.833mil|Location2.X=3062.167mil|Location1.Y=1502.833mil|Location2.Y=1507.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q2-2(1936.732mil,550mil) on Top Layer And Via (2060mil,505mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3057.833mil|Location2.X=3062.167mil|Location1.Y=1592.833mil|Location2.Y=1597.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3057.833mil|Location2.X=3062.167mil|Location1.Y=1592.833mil|Location2.Y=1597.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q2-2(1936.732mil,550mil) on Top Layer And Via (2060mil,595mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3057.833mil|Location2.X=3062.167mil|Location1.Y=1682.833mil|Location2.Y=1687.167mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3057.833mil|Location2.X=3062.167mil|Location1.Y=1682.833mil|Location2.Y=1687.167mil|Absolute=True">Clearance Constraint: (Collision &lt; 5mil) Between Pad Q2-2(1936.732mil,550mil) on Top Layer And Via (2060mil,685mil) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDVJTBGUWSXQEVJN2HT03QXKVJSFYV0R1LXM0HEMMIICGXYOXFTWBN"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Minimum Solder Mask Sliver (Gap=3.937mil) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2017.667mil|Location2.X=2022.854mil|Location1.Y=1288.65mil|Location2.Y=1293.837mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2017.667mil|Location2.X=2022.854mil|Location1.Y=1288.65mil|Location2.Y=1293.837mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.53mil &lt; 3.937mil) Between Area Fill (1020.145mil,267.44mil) (1039.655mil,289.478mil) on Top Solder And Area Fill (1020.261mil,293.008mil) (1039.655mil,314.762mil) on Top Solder [Top Solder] Mask Sliver [3.53mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2015.891mil|Location2.X=2021.078mil|Location1.Y=1264.855mil|Location2.Y=1270.042mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2015.891mil|Location2.X=2021.078mil|Location1.Y=1264.855mil|Location2.Y=1270.042mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.32mil &lt; 3.937mil) Between Area Fill (1020.145mil,267.44mil) (1039.655mil,289.478mil) on Top Solder And Area Fill (988.401mil,267.457mil) (1016.824mil,289.211mil) on Top Solder [Top Solder] Mask Sliver [3.32mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2016.076mil|Location2.X=2021.263mil|Location1.Y=1290.415mil|Location2.Y=1295.602mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2016.076mil|Location2.X=2021.263mil|Location1.Y=1290.415mil|Location2.Y=1295.602mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.181mil &lt; 3.937mil) Between Area Fill (1020.261mil,293.008mil) (1039.655mil,314.762mil) on Top Solder And Area Fill (988.656mil,293.008mil) (1017.079mil,314.762mil) on Top Solder [Top Solder] Mask Sliver [3.181mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2026.805mil|Location2.X=2031.992mil|Location1.Y=1187.998mil|Location2.Y=1193.185mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2026.805mil|Location2.X=2031.992mil|Location1.Y=1187.998mil|Location2.Y=1193.185mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (2.967mil &lt; 3.937mil) Between Area Fill (1030.882mil,190.5mil) (1054.559mil,212.254mil) on Top Solder And Area Fill (988.579mil,190.592mil) (1027.915mil,212.466mil) on Top Solder [Top Solder] Mask Sliver [2.967mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2028.368mil|Location2.X=2033.555mil|Location1.Y=1160.236mil|Location2.Y=1165.423mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2028.368mil|Location2.X=2033.555mil|Location1.Y=1160.236mil|Location2.Y=1165.423mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.787mil &lt; 3.937mil) Between Area Fill (1030.961mil,164.722mil) (1054.638mil,186.476mil) on Top Solder And Area Fill (1030.962mil,139.182mil) (1054.638mil,160.936mil) on Top Solder [Top Solder] Mask Sliver [3.787mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2026.805mil|Location2.X=2031.992mil|Location1.Y=1162.472mil|Location2.Y=1167.659mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2026.805mil|Location2.X=2031.992mil|Location1.Y=1162.472mil|Location2.Y=1167.659mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.125mil &lt; 3.937mil) Between Area Fill (1030.961mil,164.722mil) (1054.638mil,186.476mil) on Top Solder And Area Fill (988.683mil,165.065mil) (1027.836mil,186.939mil) on Top Solder [Top Solder] Mask Sliver [3.125mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2026.789mil|Location2.X=2031.976mil|Location1.Y=1136.589mil|Location2.Y=1141.775mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2026.789mil|Location2.X=2031.976mil|Location1.Y=1136.589mil|Location2.Y=1141.775mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.158mil &lt; 3.937mil) Between Area Fill (1030.962mil,139.182mil) (1054.638mil,160.936mil) on Top Solder And Area Fill (988.536mil,139.182mil) (1027.804mil,161.056mil) on Top Solder [Top Solder] Mask Sliver [3.158mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1986.062mil|Location2.X=1991.249mil|Location1.Y=1288.516mil|Location2.Y=1293.703mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1986.062mil|Location2.X=1991.249mil|Location1.Y=1288.516mil|Location2.Y=1293.703mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.797mil &lt; 3.937mil) Between Area Fill (988.401mil,267.457mil) (1016.824mil,289.211mil) on Top Solder And Area Fill (988.656mil,293.008mil) (1017.079mil,314.762mil) on Top Solder [Top Solder] Mask Sliver [3.797mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1986.09mil|Location2.X=1991.277mil|Location1.Y=1186.172mil|Location2.Y=1191.359mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1986.09mil|Location2.X=1991.277mil|Location1.Y=1186.172mil|Location2.Y=1191.359mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.652mil &lt; 3.937mil) Between Area Fill (988.579mil,190.592mil) (1027.915mil,212.466mil) on Top Solder And Area Fill (988.683mil,165.065mil) (1027.836mil,186.939mil) on Top Solder [Top Solder] Mask Sliver [3.652mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2360.76mil|Location2.X=2367.83mil|Location1.Y=2155.573mil|Location2.Y=2162.516mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2360.76mil|Location2.X=2367.83mil|Location1.Y=2155.573mil|Location2.Y=2162.516mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.899mil &lt; 3.937mil) Between Pad C4-1(1332.401mil,1125mil) on Bottom Layer And Via (1377.984mil,1174.917mil) from Top Layer to Bottom Layer [Bottom Solder] Mask Sliver [3.899mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2288.294mil|Location2.X=2297.857mil|Location1.Y=1333.239mil|Location2.Y=1339.98mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2288.294mil|Location2.X=2297.857mil|Location1.Y=1333.239mil|Location2.Y=1339.98mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (2.104mil &lt; 3.937mil) Between Pad D5-2(1323.74mil,320mil) on Bottom Layer And Via (1285mil,355mil) from Top Layer to Bottom Layer [Bottom Solder] Mask Sliver [2.104mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2325.742mil|Location2.X=2330.929mil|Location1.Y=1333.655mil|Location2.Y=1338.841mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2325.742mil|Location2.X=2330.929mil|Location1.Y=1333.655mil|Location2.Y=1338.841mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (2.843mil &lt; 3.937mil) Between Pad D5-2(1323.74mil,320mil) on Bottom Layer And Via (1328.336mil,356.669mil) from Top Layer to Bottom Layer [Bottom Solder] Mask Sliver [2.843mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2502.407mil|Location2.X=2507.593mil|Location1.Y=1903.056mil|Location2.Y=1908.243mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2502.407mil|Location2.X=2507.593mil|Location1.Y=1903.056mil|Location2.Y=1908.243mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.299mil &lt; 3.937mil) Between Pad Q1-3(1548.268mil,930mil) on Top Layer And Via (1505mil,875mil) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [3.299mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2582.407mil|Location2.X=2587.593mil|Location1.Y=1903.056mil|Location2.Y=1908.243mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2582.407mil|Location2.X=2587.593mil|Location1.Y=1903.056mil|Location2.Y=1908.243mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.299mil &lt; 3.937mil) Between Pad Q1-3(1548.268mil,930mil) on Top Layer And Via (1585mil,875mil) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [3.299mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1532.482mil|Location2.X=1537.669mil|Location1.Y=1159.759mil|Location2.Y=1164.946mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1532.482mil|Location2.X=1537.669mil|Location1.Y=1159.759mil|Location2.Y=1164.946mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (2.5mil &lt; 3.937mil) Between Pad R22-2(560mil,136.535mil) on Top Layer And Via (515mil,165mil) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [2.5mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1951.83mil|Location2.X=1957.016mil|Location1.Y=1780.114mil|Location2.Y=1785.302mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1951.83mil|Location2.X=1957.016mil|Location1.Y=1780.114mil|Location2.Y=1785.302mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.509mil &lt; 3.937mil) Between Pad U1-7(905.512mil,785mil) on Bottom Layer And Via (975mil,780mil) from Top Layer to Bottom Layer [Bottom Solder] Mask Sliver [3.509mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1339.769mil|Location2.Y=1344.956mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1339.769mil|Location2.Y=1344.956mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-1(717.795mil,355.158mil) on Top Layer And Pad U8-2(717.795mil,329.567mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1135.044mil|Location2.Y=1140.231mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1135.044mil|Location2.Y=1140.231mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-10(717.795mil,124.843mil) on Top Layer And Pad U8-9(717.795mil,150.433mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1135.044mil|Location2.Y=1140.231mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1135.044mil|Location2.Y=1140.231mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-11(942.205mil,124.843mil) on Top Layer And Pad U8-12(942.205mil,150.433mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1160.635mil|Location2.Y=1165.822mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1160.635mil|Location2.Y=1165.822mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-12(942.205mil,150.433mil) on Top Layer And Pad U8-13(942.205mil,176.024mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1186.225mil|Location2.Y=1191.412mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1186.225mil|Location2.Y=1191.412mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-13(942.205mil,176.024mil) on Top Layer And Pad U8-14(942.205mil,201.614mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1211.816mil|Location2.Y=1217.003mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1211.816mil|Location2.Y=1217.003mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-14(942.205mil,201.614mil) on Top Layer And Pad U8-15(942.205mil,227.205mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1237.406mil|Location2.Y=1242.593mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1237.406mil|Location2.Y=1242.593mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-15(942.205mil,227.205mil) on Top Layer And Pad U8-16(942.205mil,252.795mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1262.997mil|Location2.Y=1268.184mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1262.997mil|Location2.Y=1268.184mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-16(942.205mil,252.795mil) on Top Layer And Pad U8-17(942.205mil,278.386mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1288.588mil|Location2.Y=1293.774mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1288.588mil|Location2.Y=1293.774mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-17(942.205mil,278.386mil) on Top Layer And Pad U8-18(942.205mil,303.976mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1314.178mil|Location2.Y=1319.365mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1314.178mil|Location2.Y=1319.365mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-18(942.205mil,303.976mil) on Top Layer And Pad U8-19(942.205mil,329.567mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1339.769mil|Location2.Y=1344.956mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1968.155mil|Location2.X=1973.341mil|Location1.Y=1339.769mil|Location2.Y=1344.956mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-19(942.205mil,329.567mil) on Top Layer And Pad U8-20(942.205mil,355.158mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1314.178mil|Location2.Y=1319.365mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1314.178mil|Location2.Y=1319.365mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-2(717.795mil,329.567mil) on Top Layer And Pad U8-3(717.795mil,303.976mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1288.588mil|Location2.Y=1293.774mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1288.588mil|Location2.Y=1293.774mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-3(717.795mil,303.976mil) on Top Layer And Pad U8-4(717.795mil,278.386mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1262.997mil|Location2.Y=1268.184mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1262.997mil|Location2.Y=1268.184mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-4(717.795mil,278.386mil) on Top Layer And Pad U8-5(717.795mil,252.795mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1756.485mil|Location2.X=1761.672mil|Location1.Y=1275.759mil|Location2.Y=1280.946mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1756.485mil|Location2.X=1761.672mil|Location1.Y=1275.759mil|Location2.Y=1280.946mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.7mil &lt; 3.937mil) Between Pad U8-4(717.795mil,278.386mil) on Top Layer And Via (779.929mil,278.298mil) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [3.701mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1237.406mil|Location2.Y=1242.593mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1237.406mil|Location2.Y=1242.593mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-5(717.795mil,252.795mil) on Top Layer And Pad U8-6(717.795mil,227.205mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1211.816mil|Location2.Y=1217.003mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1211.816mil|Location2.Y=1217.003mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-6(717.795mil,227.205mil) on Top Layer And Pad U8-7(717.795mil,201.614mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1186.225mil|Location2.Y=1191.412mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1186.225mil|Location2.Y=1191.412mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-7(717.795mil,201.614mil) on Top Layer And Pad U8-8(717.795mil,176.024mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1160.635mil|Location2.Y=1165.822mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1743.745mil|Location2.X=1748.932mil|Location1.Y=1160.635mil|Location2.Y=1165.822mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.811mil &lt; 3.937mil) Between Pad U8-8(717.795mil,176.024mil) on Top Layer And Pad U8-9(717.795mil,150.433mil) on Top Layer [Top Solder] Mask Sliver [3.811mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2007.564mil|Location2.X=2012.752mil|Location1.Y=1832.564mil|Location2.Y=1837.752mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2007.564mil|Location2.X=2012.752mil|Location1.Y=1832.564mil|Location2.Y=1837.752mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (1.685mil &lt; 3.937mil) Between Via (1030mil,835mil) from Top Layer to Bottom Layer And Via (990.316mil,835.316mil) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [1.685mil] / [Bottom Solder] Mask Sliver [1.685mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2375.561mil|Location2.X=2380.748mil|Location1.Y=2192.323mil|Location2.Y=2197.51mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2375.561mil|Location2.X=2380.748mil|Location1.Y=2192.323mil|Location2.Y=2197.51mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (2mil &lt; 3.937mil) Between Via (1377.984mil,1174.917mil) from Top Layer to Bottom Layer And Via (1378.324mil,1214.916mil) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [2mil] / [Bottom Solder] Mask Sliver [2mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2797.407mil|Location2.X=2802.593mil|Location1.Y=1202.407mil|Location2.Y=1207.593mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2797.407mil|Location2.X=2802.593mil|Location1.Y=1202.407mil|Location2.Y=1207.593mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (2mil &lt; 3.937mil) Between Via (1800mil,175mil) from Top Layer to Bottom Layer And Via (1800mil,235mil) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [2mil] / [Bottom Solder] Mask Sliver [2mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1822.407mil|Location2.X=1827.593mil|Location1.Y=2011.677mil|Location2.Y=2016.864mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1822.407mil|Location2.X=1827.593mil|Location1.Y=2011.677mil|Location2.Y=2016.864mil|Absolute=True">Minimum Solder Mask Sliver Constraint: (3.459mil &lt; 3.937mil) Between Via (825mil,1035mil) from Top Layer to Bottom Layer And Via (825mil,993.541mil) from Top Layer to Bottom Layer [Top Solder] Mask Sliver [3.459mil] / [Bottom Solder] Mask Sliver [3.459mil]</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDP34YHZ55PHQTD50XJUZV4L515NXAJ5OQTW0PU2HKZHSWCB22GMBG"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Silk To Solder Mask (Clearance=3.937mil) (IsPad),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2188.332mil|Location2.X=2193.519mil|Location1.Y=1401.304mil|Location2.Y=1406.491mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2188.332mil|Location2.X=2193.519mil|Location1.Y=1401.304mil|Location2.Y=1406.491mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.48mil &lt; 3.937mil) Between Arc (1202.008mil,403.898mil) on Bottom Overlay And Pad R4-2(1170mil,393.465mil) on Bottom Layer [Bottom Overlay] to [Bottom Solder] clearance [2.48mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1705.576mil|Location2.X=1714.003mil|Location1.Y=1410.586mil|Location2.Y=1417.382mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1705.576mil|Location2.X=1714.003mil|Location1.Y=1410.586mil|Location2.Y=1417.382mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (1.564mil &lt; 3.937mil) Between Arc (702.402mil,405.866mil) on Bottom Overlay And Pad P3-3(725mil,440mil) on Multi-Layer [Bottom Overlay] to [Bottom Solder] clearance [1.564mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2048.66mil|Location2.X=2052.285mil|Location1.Y=1317.715mil|Location2.Y=1321.34mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2048.66mil|Location2.X=2052.285mil|Location1.Y=1317.715mil|Location2.Y=1321.34mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 3.937mil) Between Pad C15-2(1080mil,322.598mil) on Top Layer And Track (1047.5mil,322.5mil)(1060mil,310mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2058.188mil|Location2.X=2061.812mil|Location1.Y=1295.196mil|Location2.Y=1298.82mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2058.188mil|Location2.X=2061.812mil|Location1.Y=1295.196mil|Location2.Y=1298.82mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 3.937mil) Between Pad C15-2(1080mil,322.598mil) on Top Layer And Track (1060mil,140mil)(1060mil,310mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2045.688mil|Location2.X=2049.312mil|Location1.Y=1320.688mil|Location2.Y=1324.312mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2045.688mil|Location2.X=2049.312mil|Location1.Y=1320.688mil|Location2.Y=1324.312mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 3.937mil) Between Pad C15-2(1080mil,322.598mil) on Top Layer And Track (985mil,322.5mil)(1047.5mil,322.5mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2062.127mil|Location2.X=2069.151mil|Location1.Y=1140.361mil|Location2.Y=1147.314mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2062.127mil|Location2.X=2069.151mil|Location1.Y=1140.361mil|Location2.Y=1147.314mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (3.352mil &lt; 3.937mil) Between Pad U11-2(1118.504mil,175mil) on Top Layer And Track (1050mil,130mil)(1060mil,140mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [3.352mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2058.188mil|Location2.X=2061.812mil|Location1.Y=1149.999mil|Location2.Y=1153.623mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2058.188mil|Location2.X=2061.812mil|Location1.Y=1149.999mil|Location2.Y=1153.623mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 3.937mil) Between Pad U11-2(1118.504mil,175mil) on Top Layer And Track (1060mil,140mil)(1060mil,310mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1147.84mil|Location2.Y=1153.027mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1147.84mil|Location2.Y=1153.027mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.358mil &lt; 3.937mil) Between Pad U8-12(942.205mil,150.433mil) on Top Layer And Track (985mil,140mil)(985mil,505mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [2.358mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1173.43mil|Location2.Y=1178.617mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1173.43mil|Location2.Y=1178.617mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.358mil &lt; 3.937mil) Between Pad U8-13(942.205mil,176.024mil) on Top Layer And Track (985mil,140mil)(985mil,505mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [2.358mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1199.021mil|Location2.Y=1204.208mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1199.021mil|Location2.Y=1204.208mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.358mil &lt; 3.937mil) Between Pad U8-14(942.205mil,201.614mil) on Top Layer And Track (985mil,140mil)(985mil,505mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [2.358mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1224.611mil|Location2.Y=1229.798mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1224.611mil|Location2.Y=1229.798mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.358mil &lt; 3.937mil) Between Pad U8-15(942.205mil,227.205mil) on Top Layer And Track (985mil,140mil)(985mil,505mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [2.358mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1250.202mil|Location2.Y=1255.389mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1250.202mil|Location2.Y=1255.389mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.358mil &lt; 3.937mil) Between Pad U8-16(942.205mil,252.795mil) on Top Layer And Track (985mil,140mil)(985mil,505mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [2.358mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1275.792mil|Location2.Y=1280.979mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1275.792mil|Location2.Y=1280.979mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.358mil &lt; 3.937mil) Between Pad U8-17(942.205mil,278.386mil) on Top Layer And Track (985mil,140mil)(985mil,505mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [2.358mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1301.383mil|Location2.Y=1306.57mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1301.383mil|Location2.Y=1306.57mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.358mil &lt; 3.937mil) Between Pad U8-18(942.205mil,303.976mil) on Top Layer And Track (985mil,140mil)(985mil,505mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [2.358mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1326.973mil|Location2.Y=1332.16mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1326.973mil|Location2.Y=1332.16mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.358mil &lt; 3.937mil) Between Pad U8-19(942.205mil,329.567mil) on Top Layer And Track (985mil,140mil)(985mil,505mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [2.358mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1352.564mil|Location2.Y=1357.751mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1976.227mil|Location2.X=1981.415mil|Location1.Y=1352.564mil|Location2.Y=1357.751mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (2.358mil &lt; 3.937mil) Between Pad U8-20(942.205mil,355.158mil) on Top Layer And Track (985mil,140mil)(985mil,505mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [2.358mil]</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDUS0MPSQGI3WCPCLGN0BIZJOLSKGINR41FMJDQQMIKSVBFK0B3XAB"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Board Clearance Constraint (Gap=0mil) (All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2692.446mil|Location2.X=2705.507mil|Location1.Y=999.316mil|Location2.Y=1012.377mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\ProjektiOtvoreni\Expanderi\DimmerExpander\DE-180824\DE-180824.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2692.446mil|Location2.X=2705.507mil|Location1.Y=999.316mil|Location2.Y=1012.377mil|Absolute=True">Board Outline Clearance(Outline Edge): (11.693mil &lt; 11.811mil) Between Arc (1698.976mil,21.535mil) on Top Overlay And Board Edge </acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br></body>
+</html>

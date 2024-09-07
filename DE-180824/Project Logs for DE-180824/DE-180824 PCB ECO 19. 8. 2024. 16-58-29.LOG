@@ -1,0 +1,25 @@
+Removed Pin From Net: NetName=GND1 Pin=C12-1
+Removed Pin From Net: NetName=NetC10_2 Pin=L1-1
+Removed Member From Class: ClassName=DE-180824 Member=C12
+Removed Member From Class: ClassName=DE-180824 Member=L1
+Change Component Designator: OldDesignator=D? NewDesignator=D4
+Add Component: Footprint Not Found DBZ3_N
+Added Component: Designator=U11(SOT-89_N)
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer URL"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.st.com"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.st.com/internet/com/TECHNICAL_RESOURCES/TECHNICAL_LITERATURE/DATASHEET/CD00000446.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetVersion"; Value = "Feb-2011"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDescription"; Value = "3-Pin SOT-89 Package 1.5 mm Pitch, 4.1 mm Lead Span"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "SOT-89"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageVersion"; Value = "2011"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartNumber"; Value = "L78L05ACUTR"; VariantName = "[No Variations]"
+Add Pin To Net: Unknown Pin: Pin U9-1
+Add Pin To Net: Unknown Pin: Pin U9-2
+Add Pin To Net: Unknown Pin: Pin U9-3
+Added Pin To Net: NetName=NetC10_2 Pin=U11-1
+Added Pin To Net: NetName=GND1 Pin=U11-2
+Added Pin To Net: NetName=GND1 Pin=U11-2
+Added Pin To Net: NetName=+12_1 Pin=U11-3
+Add Class Member: Failed to add class member : Component U9 TLV803MDBZR
+Added Member To Class: ClassName=DE-180824 Member=Component U11 L78L05ACUTR

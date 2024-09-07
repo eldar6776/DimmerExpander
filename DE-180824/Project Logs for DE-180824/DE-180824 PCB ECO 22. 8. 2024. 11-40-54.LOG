@@ -1,0 +1,536 @@
+Added Component: Designator=C12(0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Code_JEITA"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.kemet.com/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.kemet.com/kemet/web/homepage/kechome.nsf/vapubfilesname/F3102TA.pdf/$file/F3102TA.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetDocument"; Value = "Mar-2001"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "Footprint corresponds to dimensions for bulk cassette packaging. This case size has tightened tolerances."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2001"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "100nF"; VariantName = "[No Variations]"
+Added Component: Designator=C20(0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Code_JEITA"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.kemet.com/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.kemet.com/kemet/web/homepage/kechome.nsf/vapubfilesname/F3102TA.pdf/$file/F3102TA.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetDocument"; Value = "Mar-2001"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "Footprint corresponds to dimensions for bulk cassette packaging. This case size has tightened tolerances."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2001"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "100nF"; VariantName = "[No Variations]"
+Add Component: Footprint Not Found 0805
+Add Component: Footprint Not Found 0603
+Add Component: Footprint Not Found 0603
+Add Component: Footprint Not Found 0603
+Add Component: Footprint Not Found 0603
+Added Component: Designator=C26(CAPPR5-10X12.5)
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.vishay.com/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.vishay.com/docs/25014/eka.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetDocument"; Value = "20-Feb-2001"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DrillSize"; Value = "Nominal, Rounded To The Nearest 0.1mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "Refer to Manufacturer's Data Sheets for other lead formations"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "CAPPR5-10X12.5"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "470uF"; VariantName = "[No Variations]"
+Added Component: Designator=C27(CAPPR5-10X12.5)
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.vishay.com/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.vishay.com/docs/25014/eka.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetDocument"; Value = "20-Feb-2001"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DrillSize"; Value = "Nominal, Rounded To The Nearest 0.1mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "Refer to Manufacturer's Data Sheets for other lead formations"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "CAPPR5-10X12.5"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "470uF"; VariantName = "[No Variations]"
+Added Component: Designator=C28(CAPPR2-5X11)
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.vishay.com/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.vishay.com/docs/25014/eka.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetDocument"; Value = "20-Feb-2001"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DrillSize"; Value = "Nominal, Rounded To The Nearest 0.1mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "Refer to Manufacturer's Data Sheets for other lead formations"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "CAPPR2-5X11"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "47uF"; VariantName = "[No Variations]"
+Added Component: Designator=C29(0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Code_JEITA"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.kemet.com/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.kemet.com/kemet/web/homepage/kechome.nsf/vapubfilesname/F3102TA.pdf/$file/F3102TA.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetDocument"; Value = "Mar-2001"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "Footprint corresponds to dimensions for bulk cassette packaging. This case size has tightened tolerances."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2001"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "100nF"; VariantName = "[No Variations]"
+Added Component: Designator=C30(0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Code_JEITA"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.kemet.com/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.kemet.com/kemet/web/homepage/kechome.nsf/vapubfilesname/F3102TA.pdf/$file/F3102TA.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetDocument"; Value = "Mar-2001"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "Footprint corresponds to dimensions for bulk cassette packaging. This case size has tightened tolerances."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2001"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "100nF"; VariantName = "[No Variations]"
+Added Component: Designator=C31(0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Code_JEITA"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.kemet.com/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.kemet.com/kemet/web/homepage/kechome.nsf/vapubfilesname/F3102TA.pdf/$file/F3102TA.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetDocument"; Value = "Mar-2001"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "Footprint corresponds to dimensions for bulk cassette packaging. This case size has tightened tolerances."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2001"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "100nF"; VariantName = "[No Variations]"
+Added Component: Designator=P5(3 PIN TERMINAL BLOCK  5mm)
+Added Component: Designator=P6(3 PIN TERMINAL BLOCK  5mm)
+Added Component: Designator=P7(3 PIN TERMINAL BLOCK  5mm)
+Added Component: Designator=P8(3 PIN TERMINAL BLOCK  5mm)
+Added Component: Designator=P9(HDR2X3)
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=P10(HDR2X3)
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=P11(HDR2X3)
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=P12(HDR2X3)
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=P13(HDR2X4)
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=P14(HDR2X4)
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=P15(HDR2X4)
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=P16(HDR2X4)
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=P17(TERMINAL BLOK 2)
+Added Component: Designator=P18(TERMINAL BLOK 2)
+Added Component: Designator=R23(ERA-0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.panasonic.com/industrial/components/resistive_products.htm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.panasonic.com/industrial/components/pdf/AOA0000CE8.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "If flow soldering, adjust pad width of PCB Footprint to 0.7 - 0.8 times the width of the resistor."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ERA-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Dec-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=R24(ERA-0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.panasonic.com/industrial/components/resistive_products.htm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.panasonic.com/industrial/components/pdf/AOA0000CE8.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "If flow soldering, adjust pad width of PCB Footprint to 0.7 - 0.8 times the width of the resistor."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ERA-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Dec-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=R25(ERA-0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.panasonic.com/industrial/components/resistive_products.htm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.panasonic.com/industrial/components/pdf/AOA0000CE8.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "If flow soldering, adjust pad width of PCB Footprint to 0.7 - 0.8 times the width of the resistor."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ERA-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Dec-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=R26(ERA-0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.panasonic.com/industrial/components/resistive_products.htm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.panasonic.com/industrial/components/pdf/AOA0000CE8.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "If flow soldering, adjust pad width of PCB Footprint to 0.7 - 0.8 times the width of the resistor."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ERA-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Dec-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=R27(ERA-0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.panasonic.com/industrial/components/resistive_products.htm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.panasonic.com/industrial/components/pdf/AOA0000CE8.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "If flow soldering, adjust pad width of PCB Footprint to 0.7 - 0.8 times the width of the resistor."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ERA-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Dec-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=R28(ERA-0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.panasonic.com/industrial/components/resistive_products.htm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.panasonic.com/industrial/components/pdf/AOF0000CE1.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "If flow soldering, adjust pad width of PCB Footprint to 0.7 - 0.8 times the width of the resistor."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ERA-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Dec-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=R29(ERA-0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.panasonic.com/industrial/components/resistive_products.htm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.panasonic.com/industrial/components/pdf/AOF0000CE1.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "If flow soldering, adjust pad width of PCB Footprint to 0.7 - 0.8 times the width of the resistor."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ERA-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Dec-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=R30(ERA-0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.panasonic.com/industrial/components/resistive_products.htm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.panasonic.com/industrial/components/pdf/AOF0000CE1.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "If flow soldering, adjust pad width of PCB Footprint to 0.7 - 0.8 times the width of the resistor."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ERA-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Dec-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=R31(ERA-0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.panasonic.com/industrial/components/resistive_products.htm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.panasonic.com/industrial/components/pdf/AOF0000CE1.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "If flow soldering, adjust pad width of PCB Footprint to 0.7 - 0.8 times the width of the resistor."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ERA-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Dec-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=R32(ERA-0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.panasonic.com/industrial/components/resistive_products.htm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.panasonic.com/industrial/components/pdf/AOF0000CE1.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "If flow soldering, adjust pad width of PCB Footprint to 0.7 - 0.8 times the width of the resistor."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ERA-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Dec-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=R33(ERA-0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.panasonic.com/industrial/components/resistive_products.htm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.panasonic.com/industrial/components/pdf/AOA0000CE8.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "If flow soldering, adjust pad width of PCB Footprint to 0.7 - 0.8 times the width of the resistor."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ERA-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Dec-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=R34(ERA-0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.panasonic.com/industrial/components/resistive_products.htm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.panasonic.com/industrial/components/pdf/AOA0000CE8.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "If flow soldering, adjust pad width of PCB Footprint to 0.7 - 0.8 times the width of the resistor."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ERA-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Dec-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=R35(ERA-0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "1608 [0603]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.panasonic.com/industrial/components/resistive_products.htm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.panasonic.com/industrial/components/pdf/AOA0000CE8.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "If flow soldering, adjust pad width of PCB Footprint to 0.7 - 0.8 times the width of the resistor."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ERA-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Dec-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=R36(ERA-0603)
+Add component (AddParameter): Name = "Code_IPC"; Value = "2012 [0805]"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.panasonic.com/industrial/components/resistive_products.htm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.panasonic.com/industrial/components/pdf/AOA0000CE8.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "19-Mar-2004"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Silkscreen size reduced."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "If flow soldering, adjust pad width of PCB Footprint to 0.7 - 0.8 times the width of the resistor."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDocument"; Value = "Mar-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ERA-0805"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "17-Dec-2003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=U12(STM-LQFP48_N)
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer URL"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.st.com/web/en/home.html"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00088500.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink3Description"; Value = "Package Specification"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink3URL"; Value = "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00058181.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Core"; Value = "ARM Cortex-M0"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetVersion"; Value = "Rev. 1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "FLASH Size (Prog) (kB)"; Value = "64"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "I/Os (High Current)"; Value = "39"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Internal RAM Size (kB)"; Value = "8"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Technology"; Value = "Surface Mount"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Operating Frequency(F) (Processor speed) (MHz)"; Value = "48"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDescription"; Value = "48-Pin Low Profile Quad Flat Package, 7 x 7 mm Body, 0.5 mm Pitch"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "LQFP48"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageVersion"; Value = "Rev. 6, 06/2013"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Packing"; Value = "Tray"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartNumber"; Value = "STM32F030C8T6"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 2"; Value = "Newark"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 3"; Value = "Mouser"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "497-14043-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 2"; Value = "06X3647"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 3"; Value = "511-STM32F030C8T6"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supply Voltage(Vcc) min (V)"; Value = "2.4"; VariantName = "[No Variations]"
+Added Component: Designator=U13(D008_N)
+Add component (AddParameter): Name = "Code_IPC"; Value = "SOIC127P600-8"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.ti.com/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www-s.ti.com/sc/ds/sn75176b.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetVersion"; Value = "Sep-1989"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "13-Apr-2006"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "IPC-7351 Footprint Added."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Note"; Value = "Receiver Hysteresis of 50mV Typical"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDescription"; Value = "8-Pin Small Outline Integrated Circuit 1.27 mm Pitch"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "D008"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageVersion"; Value = "Jan-1998"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "15-May-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=U14(DBZ3_N)
+Add component (AddParameter): Name = "# of supplies monitored"; Value = "1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Code_JEDEC"; Value = "TO-236-AB"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.ti.com/general/docs/lit/getliterature.tsp?genericPartNumber=TLV803M&fileType=pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetVersion"; Value = "SBVS157B"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Iq(Typ)(uA)"; Value = "9"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Technology"; Value = "Surface Mount"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Output Driver Type / Reset Output"; Value = "Active-low, Open-drain"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDescription"; Value = "3-Pin Plastic Small-Outline Package, 0.95 mm Pitch, 2.4 mm Lead Span"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "DBZ3"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageVersion"; Value = "revB, Apr-2005"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartNumber"; Value = "TLV803MDBZR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rating"; Value = "Catalog"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Reset Threshold Accuracy(%)"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SubFamily"; Value = "Supervisor and Reset IC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 2"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 3"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 4"; Value = "Newark"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 5"; Value = "Mouser"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "296-29194-2-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 2"; Value = "296-29194-1-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 3"; Value = "296-29194-6-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 4"; Value = "58T0286"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 5"; Value = "595-TLV803MDBZR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Threshold Voltage 1 (typ)(Typ)(V)"; Value = "4.38"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Time Delay(ms)"; Value = "200"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "VCC(Max)(V)"; Value = "6"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "VCC(Min)(V)"; Value = "1.1"; VariantName = "[No Variations]"
+Add Component: Footprint Not Found SOT-23-OT5_N
+Added Component: Designator=U16(TO220)
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer URL"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.st.com"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.st.com/internet/com/TECHNICAL_RESOURCES/TECHNICAL_LITERATURE/DATASHEET/CD00000444.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink3Description"; Value = "Package Specification"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink3URL"; Value = "http://www.st.com/internet/com/TECHNICAL_RESOURCES/TECHNICAL_LITERATURE/PACKAGE_INFORMATION/CD00004649.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetVersion"; Value = "Nov-2011"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDescription"; Value = "TO, Thru-Hole, Vertical, Heatsink Mounted; 3 In-Line Leads; Pitch 2.54 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "TO220"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageVersion"; Value = "ver3.0"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartNumber"; Value = "L7805CV"; VariantName = "[No Variations]"
+Added Component: Designator=U17(ZZ311)
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.ti.com/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www-s.ti.com/sc/ds/REG1117.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetVersion"; Value = "Sep-1997"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDescription"; Value = "SOT-223/SC-73; 4 Leads; Body 6.7 x 7.3 mm, inc. leads (LxW max)"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "ZZ311"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageVersion"; Value = "revC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "8-Jun-2000"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=C20-1
+Added Pin To Net: NetName=GND Pin=C26-2
+Added Pin To Net: NetName=GND Pin=C27-2
+Added Pin To Net: NetName=GND Pin=C28-2
+Added Pin To Net: NetName=GND Pin=C29-1
+Added Pin To Net: NetName=GND Pin=C30-1
+Added Pin To Net: NetName=GND Pin=C31-1
+Added Pin To Net: NetName=GND Pin=P13-6
+Added Pin To Net: NetName=GND Pin=P14-6
+Added Pin To Net: NetName=GND Pin=P15-6
+Added Pin To Net: NetName=GND Pin=P16-6
+Added Pin To Net: NetName=GND1 Pin=R23-2
+Added Pin To Net: NetName=GND1 Pin=R24-1
+Added Pin To Net: NetName=GND1 Pin=R25-1
+Added Pin To Net: NetName=GND1 Pin=R26-1
+Added Pin To Net: NetName=GND1 Pin=R27-1
+Added Pin To Net: NetName=GND Pin=R28-1
+Add Pin To Net: Unknown Pin: Pin U15-5
+Added Pin To Net: NetName=GND Pin=U17-1
+Added Net: Name=+3V3
+Added Pin To Net: NetName=3V3 Pin=R33-2
+Added Pin To Net: NetName=3V3 Pin=R34-2
+Added Pin To Net: NetName=3V3 Pin=R35-2
+Added Net: Name=3V3
+Added Pin To Net: NetName=5V Pin=C12-1
+Added Pin To Net: NetName=5V Pin=U16-3
+Added Net: Name=5V
+Added Pin To Net: NetName=12V Pin=P18-2
+Added Pin To Net: NetName=12V Pin=U16-1
+Added Net: Name=12V
+Added Pin To Net: NetName=I2C1_SCL Pin=R34-1
+Added Net: Name=I2C1_SCL
+Added Pin To Net: NetName=I2C1_SDA Pin=R35-1
+Added Net: Name=I2C1_SDA
+Added Pin To Net: NetName=LIVE1 Pin=P9-1
+Added Pin To Net: NetName=LIVE1 Pin=P9-2
+Added Net: Name=LIVE1
+Added Pin To Net: NetName=LIVE2 Pin=P10-1
+Added Pin To Net: NetName=LIVE2 Pin=P10-2
+Added Net: Name=LIVE2
+Added Pin To Net: NetName=LIVE3 Pin=P11-1
+Added Pin To Net: NetName=LIVE3 Pin=P11-2
+Added Net: Name=LIVE3
+Added Pin To Net: NetName=LIVE4 Pin=P12-1
+Added Pin To Net: NetName=LIVE4 Pin=P12-2
+Added Net: Name=LIVE4
+Added Pin To Net: NetName=NetC24_1 Pin=R36-1
+Added Pin To Net: NetName=NetC24_1 Pin=U12-9
+Added Net: Name=NetC24_1
+Added Pin To Net: NetName=NetP17_1 Pin=P17-1
+Added Pin To Net: NetName=NetP17_1 Pin=R30-1
+Added Net: Name=NetP17_1
+Added Pin To Net: NetName=NetR23_1 Pin=R23-1
+Added Pin To Net: NetName=NetR23_1 Pin=U8-14
+Added Net: Name=NetR23_1
+Added Pin To Net: NetName=NetR24_2 Pin=R24-2
+Added Pin To Net: NetName=NetR24_2 Pin=U8-12
+Added Net: Name=NetR24_2
+Added Pin To Net: NetName=NetR25_2 Pin=R25-2
+Added Pin To Net: NetName=NetR25_2 Pin=U8-13
+Added Net: Name=NetR25_2
+Added Pin To Net: NetName=NetR26_2 Pin=R26-2
+Added Pin To Net: NetName=NetR26_2 Pin=U8-17
+Added Net: Name=NetR26_2
+Added Pin To Net: NetName=NetR27_2 Pin=R27-2
+Added Pin To Net: NetName=NetR27_2 Pin=U8-18
+Added Net: Name=NetR27_2
+Added Pin To Net: NetName=NetR33_1 Pin=R33-1
+Added Pin To Net: NetName=NetR33_1 Pin=U14-2
+Added Net: Name=NetR33_1
+Added Pin To Net: NetName=NEUTRAL1 Pin=P5-3
+Added Net: Name=NEUTRAL1
+Added Pin To Net: NetName=NEUTRAL2 Pin=P6-3
+Added Net: Name=NEUTRAL2
+Added Pin To Net: NetName=NEUTRAL3 Pin=P7-3
+Added Net: Name=NEUTRAL3
+Added Pin To Net: NetName=NEUTRAL4 Pin=P8-3
+Added Net: Name=NEUTRAL4
+Added Pin To Net: NetName=USART1_DE Pin=R28-2
+Added Pin To Net: NetName=USART1_DE Pin=U13-3
+Added Net: Name=USART1_DE
+Added Pin To Net: NetName=USART1_RX Pin=R31-1
+Added Pin To Net: NetName=USART1_RX Pin=R32-1
+Added Net: Name=USART1_RX
+Added Class: Name=DE-180824_1
+Added Member To Class: ClassName=DE-180824 Member=Component R23 10K
+Added Member To Class: ClassName=DE-180824 Member=Component R24 10K
+Added Member To Class: ClassName=DE-180824 Member=Component R25 10K
+Added Member To Class: ClassName=DE-180824 Member=Component R26 10K
+Added Member To Class: ClassName=DE-180824 Member=Component R27 10K
+Added Member To Class: ClassName=DE-180824 Member=Component U1 LM393MX
+Added Member To Class: ClassName=DE-180824 Member=Component U3 PC817
+Added Member To Class: ClassName=DE-180824 Member=Component U10 MCS1802GS-10-Z
+Added Rule: Name=Schematic Supply Nets_7
+Added Rule: Name=Schematic Supply Nets_8
+Added Rule: Name=Schematic Supply Nets_9
+Added Rule: Name=Schematic Supply Nets_10
