@@ -1,0 +1,31 @@
+Altium Designer Pick and Place Locations
+D:\ProjektiOtvoreni\Expanderi\Dimmer\hw\DE-180824\Project Outputs for DE-180824\Pick Place for PCB_ControlBoard.csv
+
+========================================================================================================================
+File Design Information:
+
+Date:       19/10/24
+Time:       17:10
+Revision:   Not in VersionControl
+Variant:    No variations
+Units used: mil
+
+"Designator","Comment","Layer","Footprint","Center-X(mil)","Center-Y(mil)","Rotation","Description"
+"S4","SW DIP-6","TopLayer","DIP-12/SW","1580.000","230.000","0","DIP Switch, 6 Position, SPST"
+"S3","DOWN","TopLayer","TACTILE_SWITCH","600.000","171.417","180",""
+"S2","<OK >","TopLayer","TACTILE_SWITCH","600.000","575.709","180",""
+"S1","UP","TopLayer","TACTILE_SWITCH","600.000","980.000","180",""
+"R32","2K2","TopLayer","ERA-0603","280.000","600.000","180","Rectangular Thick Film Chip Resistor, 10 Ohm to 330k Ohm Range, 0.1% and 0.5% Tolerance, 0603 Size, 0.063 W"
+"R31","2K2","TopLayer","ERA-0603","1793.465","600.000","0","Rectangular Thick Film Chip Resistor, 10 Ohm to 330k Ohm Range, 0.1% and 0.5% Tolerance, 0603 Size, 0.063 W"
+"R26","2K2","TopLayer","ERA-0603","1480.000","600.000","0","Rectangular Thick Film Chip Resistor, 10 Ohm to 330k Ohm Range, 0.1% and 0.5% Tolerance, 0603 Size, 0.063 W"
+"R24","2K2","TopLayer","ERA-0603","1170.000","600.000","0","Rectangular Thick Film Chip Resistor, 10 Ohm to 330k Ohm Range, 0.1% and 0.5% Tolerance, 0603 Size, 0.063 W"
+"R23","2K2","TopLayer","ERA-0603","860.000","600.000","0","Rectangular Thick Film Chip Resistor, 10 Ohm to 330k Ohm Range, 0.1% and 0.5% Tolerance, 0603 Size, 0.063 W"
+"P17","Header 8X2","TopLayer","HDR2X8","1500.000","940.000","0","Header, 8-Pin, Dual row"
+"D12","LEARN","TopLayer","1.6X0.8X0.8","170.000","570.000","270","High Performance Chip LED, Red"
+"D11","CH 4","TopLayer","1.6X0.8X0.8","1907.488","570.000","270","High Performance Chip LED, Red"
+"D10","CH 3","TopLayer","1.6X0.8X0.8","1595.701","570.000","270","High Performance Chip LED, Red"
+"D9","CH 2","TopLayer","1.6X0.8X0.8","1283.913","570.000","270","High Performance Chip LED, Red"
+"D8","CH 1","TopLayer","1.6X0.8X0.8","972.126","570.000","270","High Performance Chip LED, Red"
+"C21","C0603","TopLayer","0603","600.000","340.000","180","Ceramic Chip Capacitor - Standard"
+"C20","C0603","TopLayer","0603","600.000","410.000","180","Ceramic Chip Capacitor - Standard"
+"C12","C0603","TopLayer","0603","600.000","820.000","180","Ceramic Chip Capacitor - Standard"
