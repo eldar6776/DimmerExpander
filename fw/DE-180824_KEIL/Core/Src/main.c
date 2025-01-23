@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <math.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -31,48 +31,40 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define UART_BUFFER_SIZE 8
-#define DIMMER_COUNT 16
-#define ACK 0x06
-#define RETRY_COUNT 3
-#define TIMEOUT 100 // ms
 
 // Definicije komandi
 enum {
     DIMM_SET_VALUE = 0x01,
     DIMM_SET_RAMP = 0x02,
-    DIMM_SET_CURRENT = 0x03,
-    DIMM_SET_TEMPERATURE = 0x04,
-    DIMM_RESET = 0x05,
-    DIMM_GET_STATE = 0x06
+    DIMM_SET_TEMPERATURE = 0x03,
+    DIMM_RESET = 0x04,
+    DIMM_GET_STATE = 0x05,
+    DIMM_RESTART = 0x06
 };
-
-// Struktura za čuvanje stanja dimera
-typedef struct {
-    uint8_t value;
-    uint8_t current_limit;
-    uint8_t temp_limit;
-    uint8_t state;
-} Dimmer_t;
 
 typedef enum {
     INIT = 0,
-    STOP,
     RUN,
-    ERR1,
-    ERR2,
-    ERR3,
-    ERR4,
-    ERR5,
-    ERR6,
-    ERR7,
-    ERR8
+    ERR
 } eSYSstate;
 
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
+#define UART_BUFFER_SIZE 8
+#define DIMMER_COUNT 16
+#define ACK 0x06
+#define NAK 0x15
+#define RETRY_COUNT 3
+#define TIMEOUT 100 // ms
+#define ADC_MAX 4095
+#define ADC_VREF 3.3
+#define NTC_R25 100000.0  // 100K na 25�C
+#define NTC_BETA 3950.0  // Beta koeficijent
+#define NTC_SERIES_RESISTOR 100000.0  // 100K pull-up
+#define TEMP_CHECK_INTERVAL 500  // Periodicno merenje temperature (500 ms)
+#define TEMP_TRESHOLD 20 // kada se izlaz pregrije mora se ohladiti za barem ovoliko za ponovni rad
 
 /* USER CODE END PM */
 
@@ -86,6 +78,9 @@ TIM_HandleTypeDef htim14;
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
+void check_temperature_protection(void);
+float convert_adc_to_temperature(uint16_t adc_value);
+uint16_t read_ntc_adc(void);
 void process_uart_command();
 void ramp_update(void);
 /* USER CODE END PV */
@@ -100,33 +95,68 @@ static void MX_TIM14_Init(void);
 /* USER CODE BEGIN PFP */
 volatile eSYSstate dimmer_state = INIT;
 volatile uint8_t dimmer_address = 0, i;
-volatile uint8_t dimmer_current_limit;
-volatile uint8_t dimmer_temp_limit;
-volatile uint8_t dimmer_ramp;
+volatile uint8_t dimmer_temp_limit = 90;
+volatile uint8_t dimmer_ramp = 0;
 uint8_t uart_rx_buffer[UART_BUFFER_SIZE];
 uint8_t rx_byte;
 uint8_t rxcnt = 0;
-
-volatile uint16_t temperature = 0;
-volatile uint16_t current = 0;
-bool error = false;
+float ntc_temperature = 0;
+const uint16_t upper_limit = 990;   // preko ove vrijednosti moguce treperenje
 volatile uint16_t dimmer_new_value = 0;   // Ciljna vrednost
-volatile uint32_t last_ramp_tick = 0;  // Pamti zadnje a�uriranje
-volatile uint32_t ramp_step = 5;  // Brzina rampe (ms izmedu koraka)
-volatile uint16_t dimmer_value = 500;  // Vrijednost (0-1000) odreduje ugao iskljucenja
+volatile uint32_t last_ramp_tick = 0;  // Pamti zadnje azuriranje
+volatile uint32_t last_ntc_tick = 0;  // Pamti zadnje azuriranje
+volatile uint16_t dimmer_value = 0;  // Vrijednost (0-1000) odreduje ugao iskljucenja
 volatile uint8_t mosfet_on = 0; // Oznaka da je MOSFET ukljucen
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+
 void ramp_update(void) {
-    if ((HAL_GetTick() - last_ramp_tick) >= ramp_step) {  // Koristi podesivi inkrement
+    if ((HAL_GetTick() - last_ramp_tick) >= dimmer_ramp) {  // Koristi podesivi inkrement
         last_ramp_tick = HAL_GetTick();  // A�uriraj vreme poslednje promene
 
         if (dimmer_value < dimmer_new_value) {
             dimmer_value++;  // Povecaj vrednost za 1
         } else if (dimmer_value > dimmer_new_value) {
             dimmer_value--;  // Smanji vrednost za 1
+        }
+    }
+}
+uint16_t read_ntc_adc(void) {
+    ADC_ChannelConfTypeDef sConfig = {0};
+
+    // Konfigurisanje ADC za NTC na PA1
+    sConfig.Channel = ADC_CHANNEL_1;
+    sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
+    sConfig.SamplingTime = ADC_SAMPLETIME_239CYCLES_5;
+    HAL_ADC_ConfigChannel(&hadc, &sConfig);
+
+    HAL_ADC_Start(&hadc);
+    HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
+    uint16_t adc_value = HAL_ADC_GetValue(&hadc);
+    HAL_ADC_Stop(&hadc);
+
+    return adc_value;
+}
+
+float convert_adc_to_temperature(uint16_t adc_value) {
+    float voltage = (adc_value * ADC_VREF) / ADC_MAX;
+    float resistance = (NTC_SERIES_RESISTOR * voltage) / (ADC_VREF - voltage);
+    // Steinhart-Hart formula za temperaturu u Kelvina
+    float tempK = 1.0 / ((log(resistance / NTC_R25) / NTC_BETA) + (1.0 / 298.15));
+    return tempK - 273.15;  // Konverzija u Celzijuse
+}
+void check_temperature_protection(void) {
+    if ((HAL_GetTick() - last_ntc_tick) >= 500) {
+        last_ntc_tick = HAL_GetTick();  // Azuriraj vreme poslednje promene
+        ntc_temperature = convert_adc_to_temperature(read_ntc_adc());
+        if (((int)ntc_temperature > dimmer_temp_limit) && (dimmer_state != ERR))
+        {
+            dimmer_state = ERR;
+            HAL_NVIC_DisableIRQ(EXTI4_15_IRQn);
+            HAL_GPIO_WritePin(GATE_GPIO_Port, GATE_Pin, GPIO_PIN_SET);
         }
     }
 }
@@ -179,41 +209,36 @@ int main(void)
         case INIT:
             dimmer_address = 0;
             HAL_GPIO_WritePin(GATE_GPIO_Port, GATE_Pin, GPIO_PIN_SET);
-            if(HAL_GPIO_ReadPin(A0_GPIO_Port, A0_Pin) == GPIO_PIN_RESET) dimmer_address |= 0x01;
-            if(HAL_GPIO_ReadPin(A1_GPIO_Port, A1_Pin) == GPIO_PIN_RESET) dimmer_address |= 0x02;
+            if(HAL_GPIO_ReadPin(A0_GPIO_Port, A0_Pin) == GPIO_PIN_SET) dimmer_address |= 0x01;
+            if(HAL_GPIO_ReadPin(A1_GPIO_Port, A1_Pin) == GPIO_PIN_SET) dimmer_address |= 0x02;
             if(HAL_GPIO_ReadPin(A2_GPIO_Port, A2_Pin) == GPIO_PIN_RESET) dimmer_address |= 0x04;
             if(HAL_GPIO_ReadPin(A3_GPIO_Port, A3_Pin) == GPIO_PIN_RESET) dimmer_address |= 0x08;
+            if(HAL_GPIO_ReadPin(A4_GPIO_Port, A4_Pin) == GPIO_PIN_RESET) dimmer_address |= 0x10;
             dimmer_new_value = 0;
             dimmer_value = 0;
-            temperature = 0;
-            current = 0;
-            dimmer_state = STOP;
-            break;
-
-        case STOP:
+            dimmer_ramp = 0;
+            HAL_Delay(100);
             dimmer_state = RUN;
             break;
 
         case RUN:
-            ramp_update();  // Neprekidno a�urira value ka new_value
+            ramp_update();
+            check_temperature_protection();
             break;
 
         default:
-        case ERR1:
-        case ERR2:
-        case ERR3:
-        case ERR4:
-        case ERR5:
-        case ERR6:
-        case ERR7:
-        case ERR8:
-            dimmer_state = INIT;
+        case ERR:
+            dimmer_value = 0;
+            check_temperature_protection();
             break;
         }
 
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
+#ifdef USE_WATCHDOG
+        HAL_IWDG_Refresh(&hiwdg);
+#endif
     }
     /* USER CODE END 3 */
 }
@@ -308,17 +333,9 @@ static void MX_ADC_Init(void)
 
     /** Configure for the selected ADC regular channel to be converted.
     */
-    sConfig.Channel = ADC_CHANNEL_0;
-    sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
-    sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-    if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
-    {
-        Error_Handler();
-    }
-
-    /** Configure for the selected ADC regular channel to be converted.
-    */
     sConfig.Channel = ADC_CHANNEL_1;
+    sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
+    sConfig.SamplingTime = ADC_SAMPLETIME_239CYCLES_5;
     if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
     {
         Error_Handler();
@@ -386,6 +403,7 @@ static void MX_TIM14_Init(void)
     /* USER CODE BEGIN TIM14_Init 2 */
     HAL_TIM_Base_Start_IT(&htim14);
     /* USER CODE END TIM14_Init 2 */
+
 }
 
 /**
@@ -420,6 +438,7 @@ static void MX_USART1_UART_Init(void)
     /* USER CODE BEGIN USART1_Init 2 */
     HAL_UART_Receive_IT(&huart1, &rx_byte, 1);
     /* USER CODE END USART1_Init 2 */
+
 }
 
 /**
@@ -453,8 +472,8 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_Init(GATE_GPIO_Port, &GPIO_InitStruct);
 
-    /*Configure GPIO pins : A4_Pin A3_Pin A1_Pin A0_Pin */
-    GPIO_InitStruct.Pin = A4_Pin|A3_Pin|A1_Pin|A0_Pin;
+    /*Configure GPIO pins : A4_Pin A3_Pin */
+    GPIO_InitStruct.Pin = A4_Pin|A3_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -464,6 +483,12 @@ static void MX_GPIO_Init(void)
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     HAL_GPIO_Init(A2_GPIO_Port, &GPIO_InitStruct);
+
+    /*Configure GPIO pins : A1_Pin A0_Pin */
+    GPIO_InitStruct.Pin = A1_Pin|A0_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
     /* EXTI interrupt init*/
     HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
@@ -516,61 +541,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   * @param
   * @retval
   */
-void process_uart_command() {
-    uint8_t id = uart_rx_buffer[0];
-    uint8_t command = uart_rx_buffer[1];
-    uint8_t response[UART_BUFFER_SIZE] = {0};
 
-    if (id >= DIMMER_COUNT && id != 0x55) return;
-
-    switch (command) {
-    case DIMM_SET_VALUE:
-        if (id == dimmer_address) {
-            dimmer_value = (uint16_t) uart_rx_buffer[2] * 10;
-            response[0] = ACK;
-        }
-        break;
-    case DIMM_SET_CURRENT:
-        if (id == dimmer_address) {
-            dimmer_current_limit = uart_rx_buffer[2];
-            response[0] = ACK;
-        }
-        break;
-    case DIMM_SET_TEMPERATURE:
-        if (id == dimmer_address) {
-            dimmer_temp_limit = uart_rx_buffer[2];
-            response[0] = ACK;
-        }
-        break;
-    case DIMM_RESET:
-        if (id == 0x55) {
-            dimmer_value = 0;
-            dimmer_state = INIT;
-        } else {
-            dimmer_value = 0;
-            dimmer_ramp = uart_rx_buffer[2];
-            dimmer_current_limit = uart_rx_buffer[3];
-            dimmer_temp_limit = uart_rx_buffer[4];
-            dimmer_state = INIT;
-        }
-        response[0] = ACK;
-        break;
-    case DIMM_GET_STATE:
-        if (id < DIMMER_COUNT) {
-            response[0] = id;
-            response[1] = DIMM_GET_STATE;
-            response[2] = dimmer_value / 10;
-            response[4] = dimmer_ramp;
-            response[5] = dimmer_current_limit;
-            response[6] = dimmer_temp_limit;
-            response[7] = dimmer_state;
-        }
-        break;
-    default:
-        return;
-    }
-    HAL_UART_Transmit(&huart1, response, sizeof(response), HAL_MAX_DELAY);
-}
 /**
   * @brief packet 1DIMMCH,2CMD,3VALHI,4VALLO,5CRC
   * @param
@@ -580,20 +551,22 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     if (huart->Instance == USART1) {
         uart_rx_buffer[rxcnt++] = rx_byte;
-        
+
         // Provera dužine komande na osnovu drugog bajta (komande)
         uint8_t expected_length = 3;
         if (rxcnt > 1) {
             switch (uart_rx_buffer[1]) {
-                case DIMM_RESET:
-                    expected_length = 4;
-                    break;
-                case DIMM_GET_STATE:
-                    expected_length = 2;
-                    break;
-                default:
-                    expected_length = 3;
-                    break;
+            case DIMM_SET_VALUE:
+            case DIMM_RESET:
+                expected_length = 4;
+                break;
+            case DIMM_GET_STATE:
+            case DIMM_RESTART:
+                expected_length = 2;
+                break;
+            default:
+                expected_length = 3;
+                break;
             }
         }
 
@@ -603,6 +576,75 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
         }
         HAL_UART_Receive_IT(&huart1, &rx_byte, 1);
     }
+}
+void process_uart_command() {
+    uint8_t id = uart_rx_buffer[0];
+    uint8_t command = uart_rx_buffer[1];
+    uint8_t response[UART_BUFFER_SIZE] = {0};
+    response[0] = 0;
+
+    if (id >= DIMMER_COUNT && id != 0x55) return;
+
+    switch (command) {
+    case DIMM_SET_VALUE:
+        if (id == dimmer_address) {
+            dimmer_new_value = ((uart_rx_buffer[2] << 8)|uart_rx_buffer[3]);
+            if(dimmer_new_value > upper_limit) dimmer_new_value = upper_limit;
+            if (dimmer_state != ERR) response[0] = ACK;
+            else response[0] = NAK;
+        }
+        break;
+    case DIMM_SET_RAMP:
+        if (id == dimmer_address) {
+            dimmer_ramp = uart_rx_buffer[2];
+            if (dimmer_state != ERR) response[0] = ACK;
+            else response[0] = NAK;
+        }
+        break;
+    case DIMM_SET_TEMPERATURE:
+        if (id == dimmer_address) {
+            dimmer_temp_limit = uart_rx_buffer[2];
+            if (dimmer_state != ERR) response[0] = ACK;
+            else response[0] = NAK;
+        }
+        break;
+    case DIMM_RESET:
+        if ((id == 0x55)||(id == dimmer_address)) {
+            dimmer_value = 0;
+            dimmer_new_value = 0;
+            dimmer_ramp = uart_rx_buffer[2];
+            dimmer_temp_limit = uart_rx_buffer[3];
+            dimmer_state = RUN;
+            HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
+            if (id == dimmer_address) response[0] = ACK;
+        }
+        break;
+    case DIMM_RESTART:
+        if ((id == 0x55)||(id == dimmer_address)) {
+            if (id == dimmer_address)
+            {
+                response[0] = ACK;
+                HAL_UART_Transmit(&huart1, response, sizeof(response), HAL_MAX_DELAY);
+            }
+            Error_Handler();
+        }
+        break;
+    case DIMM_GET_STATE:
+        if (id == dimmer_address) {
+            response[0] = id;
+            response[1] = DIMM_GET_STATE;
+            response[2] = dimmer_value >> 8;
+            response[3] = dimmer_value & 0xff;
+            response[4] = dimmer_ramp;
+            response[5] = ((int)ntc_temperature) & 0xff;
+            response[6] = dimmer_temp_limit;
+            response[7] = dimmer_state;
+        }
+        break;
+    default:
+        return;
+    }
+    if(response[0] != 0) HAL_UART_Transmit(&huart1, response, sizeof(response), HAL_MAX_DELAY);
 }
 /**
   * @brief

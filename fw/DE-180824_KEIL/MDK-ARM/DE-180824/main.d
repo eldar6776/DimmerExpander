@@ -37,4 +37,5 @@ de-180824/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart_ex.h \
   C:\Keil\ARM\ARMCLANG\Bin\..\include\stdio.h \
   C:\Keil\ARM\ARMCLANG\Bin\..\include\string.h \
-  C:\Keil\ARM\ARMCLANG\Bin\..\include\stdbool.h
+  C:\Keil\ARM\ARMCLANG\Bin\..\include\stdbool.h \
+  C:\Keil\ARM\ARMCLANG\Bin\..\include\math.h
