@@ -1,9 +1,9 @@
---cpu Cortex-M0
+--cpu Cortex-M0 --lto
 "de-180824_baseboard\startup_stm32f030x8.o"
-"de-180824_baseboard\tinyframe.o"
 "de-180824_baseboard\main.o"
 "de-180824_baseboard\stm32f0xx_it.o"
 "de-180824_baseboard\stm32f0xx_hal_msp.o"
+"de-180824_baseboard\tinyframe.o"
 "de-180824_baseboard\stm32f0xx_hal_crc.o"
 "de-180824_baseboard\stm32f0xx_hal_crc_ex.o"
 "de-180824_baseboard\stm32f0xx_hal_rcc.o"

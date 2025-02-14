@@ -27,14 +27,12 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 enum {
-    SET_DIMMER_VALUE        = 0x01,
-    SET_DIMMER_RAMP         = 0x02,
-    SET_DIMMER_TEMPERATURE  = 0x03,
-    DIMMER_RESET            = 0x04,
-    GET_DIMMER_STATE        = 0x05,
-    DIMMER_RESTART          = 0x06,
-    GET_DIMMER_VALUE        = 0x07,
-    SET_DIMMER_SCALING      = 0x08
+    _SET_DIMMER_VALUE       = 0x01,
+    _SET_DIMMER_RAMP        = 0x02,
+    _SET_DIMMER_TEMPERATURE = 0x03,
+    _DIMMER_RESET           = 0x04,  // softverski reset jednog kanala dimera 0x55 specijalna adresa za sve kanale na busu
+    _GET_DIMMER_STATE       = 0x05,
+    _DIMMER_RESTART         = 0x06   // softverski restart modula dimera i svih kanala na njemu
 };
 
 typedef enum {
@@ -54,7 +52,7 @@ typedef struct {
     uint8_t state;
     bool update;
     bool reset;
-} sLedChanel;
+} sDimmerChanel;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -62,11 +60,11 @@ typedef struct {
 #define DIMRXBUF_SIZE 16
 #define NUMBER_OF_CHANEL 4
 #define MENU_TIMEOUT 10000 // 10 sekundi timeout
-#define SHORT_PRESS_MIN 10  // 10 ms
-#define SHORT_PRESS_MAX 200 // 200 ms
-#define LONG_PRESS_MIN 1000 // 1 sekunda
+#define SHORT_PRESS_MIN 10  // 10 ms najmanje vrijeme kratkog pritisnutog tastera "klika"
+#define SHORT_PRESS_MAX 200 // 200 ms najduže vrijeme jednog klika tastera
+#define LONG_PRESS_MIN 1000 // 1 sekunda vrijeme nakon kojeg krece dim funkcija tastera
 #define RESET_PRESS_MIN 5000 // 5 sekunda
-#define LONG_PRESS_INTERVAL 5 // Brzina promjene kod dugog pritiska
+#define LONG_PRESS_INTERVAL 0 // Brzina promjene kod dugog pritiska
 #define INCREMENT_STEP 5   // Korak inkrementacije za dugi pritisak
 #define TOGGLE_INTERVAL 500 // Period treptanja LED
 #define ERROR_TOGGLE_INTERVAL 50 // Period treptanja LED kod greï¿½ke
@@ -93,14 +91,14 @@ uint8_t dimrxbuf[DIMRXBUF_SIZE] = {0}, dimrxcnt = 0, dimrxbyte;
 uint8_t rec, my_address;
 TinyFrame tfapp;
 bool init_tf = false;
-bool reset_all = false;
 static uint8_t ee_sta = 0;
+bool restart = false;
 eSysState sys_state = INIT;
 
-
+static uint32_t delay_t = 20000000;
 GPIO_TypeDef *LED_PORT[4] = {GPIOB, GPIOB, GPIOB, GPIOB};
 uint16_t LED_PIN[4] = {GPIO_PIN_3, GPIO_PIN_4, GPIO_PIN_5, GPIO_PIN_14};
-sLedChanel led_ch[4] = {0};
+sDimmerChanel dimm_ch[4] = {0};
 volatile uint8_t selected_channel = 3;
 volatile uint8_t menu_activ = 0;
 volatile uint32_t menu_timer = 0;
@@ -132,7 +130,6 @@ uint8_t reset_ch(uint8_t ch);
 uint8_t set_temp(uint8_t ch);
 uint8_t get_state(uint8_t ch);
 void refresh(void);
-void restart_all(void);
 void handle_buttons(void) ;
 void menu_logic(void);
 void RS485_Init(void);
@@ -141,138 +138,209 @@ uint8_t received;
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//dimmer_value = 0 ? izlaz = 0
-//dimmer_value = 100 ? izlaz = 1000
-//dimmer_value = 1 ? izlaz = lower_limit (npr. 200)
-//dimmer_value = 99 ? izlaz ï¿½ upper_limit (npr. 700)
-//Sve ostali vrednosti (2-98) se proporcionalno mapiraju izmedu lower_limit i upper_limit.
 /**
-  * @brief  save state to eeprom 
+  * @brief  staticka inline funkcija pauze 1~2ms za kašnjenje odgovora za stabilne repeatere
+  *         u interruptu se ne može koristiti HAL_GetTick ni HAL_Delay tako da ova funkcija
+  *         obezbjeduje kašnjenje oko 1 ms bez hal drivera gubljenjem vremena izvršavanjem 
+  *         ciklusa koji ne rade ništa
   * @param
   * @retval
   */
-static void save_ch(uint8_t ch){
-    uint8_t size = sizeof(sLedChanel);
-    uint8_t data[sizeof(sLedChanel)];
-    uint8_t addr = ch * sizeof(sLedChanel);
-    uint8_t wradr = 0;
-    
-    memcpy(data, &led_ch[ch], sizeof(data));
-    while(size && !ee_sta){
-        if (HAL_I2C_Mem_Write(&hi2c1, 0xA0, addr, I2C_MEMADD_SIZE_8BIT, &data[wradr], 8, 1000) != HAL_OK) ++ee_sta;
-        HAL_Delay(5);
-        if(size >= 8) size -= 8, wradr += 8;
-        else size = 0; 
+static inline void delay_us(uint32_t us) {
+    volatile uint32_t cycles = (HAL_RCC_GetHCLKFreq() / 20000000) * us;  // Smanjen faktor
+    while (cycles--) {                                  
+        __asm volatile("NOP");  // Izbegava optimizaciju
     }
 }
 /**
-  * @brief  load state from eeprom 
+  * @brief  sacuvaj u eeprom skaliranje jednog dimera i njegovu rampu promjene 
   * @param
-  * @retval
+  * @retval 0 = spašeno / 1 = neuspjeh eeprom ne radi
   */
-static void load_ch(uint8_t ch){
-    uint8_t data[sizeof(sLedChanel)];
-    uint8_t addr = ch * sizeof(sLedChanel);
-    
-    if (ee_sta) return;
-    if (HAL_I2C_Mem_Read(&hi2c1, 0xA0, addr, I2C_MEMADD_SIZE_8BIT, data, sizeof(data), 1000) != HAL_OK) ++ee_sta;
-    memcpy(&led_ch[ch], data, sizeof(data));
+static uint8_t save_ch(uint8_t ch)
+{
+    uint8_t data[6] = {0};
+    uint8_t addr = ch * 8;
+    data[0] = dimm_ch[ch].ramp;
+    data[1] = dimm_ch[ch].scale_hi >> 8;
+    data[2] = dimm_ch[ch].scale_hi & 0xff;
+    data[3] = dimm_ch[ch].scale_lo >> 8;
+    data[4] = dimm_ch[ch].scale_lo & 0xff;
+    data[5] = dimm_ch[ch].temp_limit;
+    if (HAL_I2C_Mem_Write(&hi2c1, 0xA0, addr, I2C_MEMADD_SIZE_8BIT, data, 6, 1000) != HAL_OK) ee_sta = 1; // upiši i ako nevalja upis oznaci ee_sta 
+    else ee_sta = 0;
+    HAL_Delay(5);
+    return ee_sta;
 }
+/**
+  * @brief  kopiraj iz eeproma rampu jednog dimera i njegovo skaliranje izlaza 
+  * @param
+  * @retval 0 = ucitano / 1 = neuspjeh eeprom ne radi
+  */
+static uint8_t load_ch(uint8_t ch)
+{
+    uint8_t data[6] = {0};
+    uint8_t addr = ch * 8;
 
+    if (HAL_I2C_Mem_Read(&hi2c1, 0xA0, addr, I2C_MEMADD_SIZE_8BIT, data, 6, 1000) != HAL_OK)
+    {
+        ++ee_sta;   // ako nevalja eeprom oznaci ee_sta i postavi defaultne vrijednosti
+        dimm_ch[ch].ramp = 5; // 5 ms rampa
+        dimm_ch[ch].scale_hi = 1000; // 1000 za najveci moguci raspon
+        dimm_ch[ch].scale_lo = 0;   // 0 za najveci moguci raspon
+        dimm_ch[ch].temp_limit = 90; // izbacuj grešku na 90°C mosfeta
+    }
+    else // samo ucitaj podatke ako valja eeprom
+    {
+        dimm_ch[ch].ramp = data[0];
+        dimm_ch[ch].scale_hi = (uint16_t) (data[1] << 8) | data[2];
+        dimm_ch[ch].scale_lo = (uint16_t) (data[3] << 8) | data[4];
+        dimm_ch[ch].temp_limit = data[5];
+        dimm_ch[ch].update = true; // šalji i na dimer izlaz 
+        ee_sta = 0;
+    }
+    
+    return ee_sta;
+}
+/**
+  * @brief  Mapiranje vrednosti izmedu 1 i 99 u raspon 0~1000, ulazni 0 i 100 se odmah vracaju kao 0 i 1000
+  * @param  uint8_t dimmer_value je ulazna vrijednost 0~100, 
+            uint16_t lower_limit je minimalna izlazna vrijednost za ulaznu 1
+            uint16_t upper_limit je maksimalna izlazna vrijednost za ulaznu 99
+  * @retval 0~1000
+  */
 uint16_t map_dimmer_value(uint8_t dimmer_value, uint16_t lower_limit, uint16_t upper_limit)
 {
-    if (dimmer_value == 0) return 0;  // Ako je podeï¿½avanje 0, izlaz je 0
-    if (dimmer_value == 100) return 1000; // Ako je podeï¿½avanje 100, izlaz je 1000
+    //dimmer_value = 0 ? izlaz = 0
+    //dimmer_value = 100 ? izlaz = 1000
+    //dimmer_value = 1 ? izlaz = lower_limit (npr. 200)
+    //dimmer_value = 99 ? izlaz ï¿½ upper_limit (npr. 700)
+    //Sve ostali vrednosti (2-98) se proporcionalno mapiraju izmedu lower_limit i upper_limit.
+    if (dimmer_value == 0) return 0;  // Ako je podešavanje 0, izlaz je 0
+    if (dimmer_value == 100) return 1000; // Ako je podešavanje 100, izlaz je 1000
     // Mapiranje vrednosti izmedu 1 i 99 u raspon lower_limit - upper_limit
     return (uint16_t)((((uint32_t)(dimmer_value - 1) * (upper_limit - lower_limit)) / 98) + lower_limit);
 }
-
+/**
+  * @brief  Genericka funkcija za mapiranje ulazne vrednosti iz vece u manju sa limiterima za ulazne i izlazne vrijednosti
+            ovdje se koristi da se vrijednost dimera koja je u rasponu 0~1000 skalira na vrijednost podešavanja 0~100%
+  * @param  uint16_t in_value je ulazna vrijednost 
+  * @retval uint8_t
+  */
 uint8_t map_hi2lo (uint16_t in_value, uint16_t in_min, uint16_t in_max, uint8_t out_min, uint8_t out_max)
 {
     if (in_value <= in_min) return out_min;
     if (in_value >= in_max) return out_max;
     return (uint8_t)((((uint32_t)(in_value - in_min) * (out_max - out_min)) / (in_max - in_min)) + out_min);
 }
-
+/**
+  * @brief  Genericka funkcija za mapiranje ulazne vrednosti iz manjih u vece sa limiterima za ulazne i izlazne vrijednosti
+  * @param  uint8_t in_value je ulazna vrijednost 
+  * @retval uint16_t
+  */
 uint16_t map_lo2hi(uint8_t in_value, uint8_t in_min, uint8_t in_max, uint16_t out_min, uint16_t out_max)
 {
     if (in_value <= in_min) return out_min;
     if (in_value >= in_max) return out_max;
     return (uint16_t)((((uint32_t)(in_value - in_min) * (out_max - out_min)) / (in_max - in_min)) + out_min);
 }
-
-
+/**
+  * @brief  resetuj jedan dimera tako da se izlaz postavlja na 0 a rampa i temp.limit reinicijalizujui briše status greške
+  * @param  rampa dimera i temperaturni limit kanala dimera
+  * @retval 0 = odgovor potvrdan / 1 = nije potvrdan
+  */
 uint8_t reset_ch(uint8_t ch)
 {
     uint8_t res = 1; // odgovor
     uint8_t buf[4];
-    
+
     buf[0] = ch + 1;
-    buf[1] = DIMMER_RESET;
-    buf[2] = led_ch[ch].ramp;
-    buf[3] = led_ch[ch].temp_limit;
-    
+    buf[1] = _DIMMER_RESET;
+    buf[2] = dimm_ch[ch].ramp;
+    buf[3] = dimm_ch[ch].temp_limit;
     res = send(buf, 4);
     return res;
 }
+/**
+  * @brief  restartuj jedan dimera bez inicijalizacije t.j. svi parametri su 0
+  * @param  rampa dimera i temperaturni limit kanala dimera
+  * @retval 0 = odgovor potvrdan / 1 = nije potvrdan
+  */
 uint8_t restart_ch(uint8_t ch)
 {
     uint8_t res = 1; // odgovor
     uint8_t buf[4];
-    
+
     buf[0] = ch + 1;
-    buf[1] = DIMMER_RESTART;
+    buf[1] = _DIMMER_RESTART;
     res = send(buf, 2);
     return res;
 }
+/**
+  * @brief  podesi izlaz jednog dimera
+  * @param  ch = kanal dimera
+  * @retval 0 = odgovor potvrdan / 1 = nije potvrdan
+  */
 uint8_t set_value(uint8_t ch)
 {
     uint8_t res = 1; // odgovor
     uint8_t buf[4];
-    
-    buf[0] = ch + 1;
-    buf[1] = SET_DIMMER_VALUE;
-    buf[2] = led_ch[ch].value >> 8;
-    buf[3] = led_ch[ch].value & 0xff;
-    res = send(buf, 4);
-    return res;
-}
 
+    buf[0] = ch + 1; // dimer moduli su adresirani od 1 pa dodaj offset
+    buf[1] = _SET_DIMMER_VALUE;
+    buf[2] = dimm_ch[ch].value >> 8;
+    buf[3] = dimm_ch[ch].value & 0xff;
+    res = send(buf, 4); // šalji sa odgovorom i 
+    return res; //  informiši pozivaoca o izvršenju
+}
+/**
+  * @brief  podesi temperaturni limit jednog dimera
+  * @param  ch = kanal dimera, temp_limit
+  * @retval 0 = odgovor potvrdan / 1 = nije potvrdan
+  */
 uint8_t set_temp(uint8_t ch)
 {
     uint8_t res = 1; // odgovor
     uint8_t buf[3];
-    
+
     buf[0] = ch + 1;
-    buf[1] = SET_DIMMER_TEMPERATURE;
-    buf[2] = led_ch[ch].temp_limit;
-    
+    buf[1] = _SET_DIMMER_TEMPERATURE;
+    buf[2] = dimm_ch[ch].temp_limit;
+
     res = send(buf, 3);
     return res;
 }
-
+/**
+  * @brief  podesi rampu promjene izlaza jednog  dimera
+  * @param  ch = kanal dimera, ramp
+  * @retval 0 = odgovor potvrdan / 1 = nije potvrdan
+  */
 uint8_t set_ramp(uint8_t ch)
 {
     uint8_t res = 1; // odgovor
     uint8_t buf[3];
-    
+
     buf[0] = ch + 1;
-    buf[1] = SET_DIMMER_RAMP;
-    buf[2] = led_ch[ch].ramp;
+    buf[1] = _SET_DIMMER_RAMP;
+    buf[2] = dimm_ch[ch].ramp;
     res = send(buf, 3);
     return res;
 }
-
+/**
+  * @brief  trazi stanje jednog dimera
+  * @param  ucitani su u strukturu iz dimera value, ramp, temp, temp_limit, state
+  * @retval 0 = odgovor potvrdan / 1 = nije potvrdan
+  */
 uint8_t get_state(uint8_t ch)
 {
     uint8_t buf[3];
-    uint8_t ret = 5; // broj pokušaja 
-    uint8_t res = 1; // odgovor
+    uint8_t ret = 5; // broj pokušaja
+    uint8_t res = 1; // odgovor negativan
     uint8_t wait = 10; // vrijeme odgovora * 2ms
-    
+
     buf[0] = ch + 1;
-    buf[1] = GET_DIMMER_STATE;
-    
+    buf[1] = _GET_DIMMER_STATE;
+
     do {
         dimrxcnt = 0;
         memset(dimrxbuf, 0, DIMRXBUF_SIZE);
@@ -281,57 +349,89 @@ uint8_t get_state(uint8_t ch)
         while(wait)
         {
             HAL_Delay(2);
-            if((dimrxcnt == 8) && (dimrxbuf[0] == (ch + 1)) && (dimrxbuf[1] == GET_DIMMER_STATE))
-            {
+            if((dimrxcnt == 8) && (dimrxbuf[0] == (ch + 1)) && (dimrxbuf[1] == _GET_DIMMER_STATE))
+            { 
+                // uzmi samo read only varijable iz modula
+                // pokazalo se kao bolja opcija
                 ret = res = wait = 0;
-                led_ch[ch].value        = ((uint16_t)dimrxbuf[2] << 8) | dimrxbuf[3];
-                led_ch[ch].ramp         = dimrxbuf[4];
-                led_ch[ch].temp         = dimrxbuf[5];
-                led_ch[ch].temp_limit   = dimrxbuf[6];
-                led_ch[ch].state        = dimrxbuf[7];
+//                dimm_ch[ch].value        = ((uint16_t)dimrxbuf[2] << 8) | dimrxbuf[3];
+//                dimm_ch[ch].ramp         = dimrxbuf[4];
+                dimm_ch[ch].temp         = dimrxbuf[5];
+//                dimm_ch[ch].temp_limit   = dimrxbuf[6];
+                dimm_ch[ch].state        = dimrxbuf[7];
             } else --wait;
         }
     } while(ret--);
     return res;
 }
-
+/**
+  * @brief  podesi adresu modula dimera na busu prema poziciji DIP switcha
+  * @param  
+  * @retval 
+  */
+void get_address(void)
+{
+    my_address = 0;
+    if(HAL_GPIO_ReadPin(ADDRESS_0_GPIO_Port, ADDRESS_0_Pin) == GPIO_PIN_RESET) my_address |= 0x01;
+    if(HAL_GPIO_ReadPin(ADDRESS_1_GPIO_Port, ADDRESS_1_Pin) == GPIO_PIN_RESET) my_address |= 0x02;
+    if(HAL_GPIO_ReadPin(ADDRESS_2_GPIO_Port, ADDRESS_2_Pin) == GPIO_PIN_RESET) my_address |= 0x04;
+    if(HAL_GPIO_ReadPin(ADDRESS_3_GPIO_Port, ADDRESS_3_Pin) == GPIO_PIN_RESET) my_address |= 0x08;
+    if(HAL_GPIO_ReadPin(ADDRESS_4_GPIO_Port, ADDRESS_4_Pin) == GPIO_PIN_RESET) my_address |= 0x10;
+    if(HAL_GPIO_ReadPin(ADDRESS_5_GPIO_Port, ADDRESS_5_Pin) == GPIO_PIN_RESET) my_address |= 0x20;
+}
+/**
+  * @brief  restartuj sve dimere i ponovo reinicijalizuj iz eeprom-a 
+            rampe, skaliranje i tem. limit  bez odgovora
+  * @param  
+  * @retval 
+  */
 void restart_all(void)
 {
     uint8_t buf[2];
-
     buf[0] = 0x55;
-    buf[1] = DIMMER_RESTART;
+    buf[1] = _DIMMER_RESTART;
     send(buf, 2);
+    load_ch(0);
+    load_ch(1);
+    load_ch(2);
+    load_ch(3);
 }
+/**
+  * @brief  povremena provjera stanja dimera i podešavanje novih vrijednosti
+  * @param  
+  * @retval 
+  */
 void refresh_ch(void)
 {
-    uint8_t response = 0, ret;
+    uint8_t response = 0;
     static uint8_t chanel = 0;
-    
-    
+
     if ((HAL_GetTick() - last_check_time) >= 50) {
         last_check_time = HAL_GetTick();  // Azuriraj vreme poslednje promene
-        if(led_ch[chanel].update == true)
+        if(dimm_ch[chanel].update == true)
         {
             response  = set_value(chanel);
             response += set_temp(chanel);
             response += set_ramp(chanel);
-            if(response == 0) led_ch[chanel].update = false;
-        }        
-        get_state(chanel);
+            if(response == 0) dimm_ch[chanel].update = false;
+            else dimm_ch[chanel].state = ERR;
+            save_ch(chanel);
+        }
+        if(get_state(chanel) != 0) dimm_ch[chanel].state = ERR;
         if(++chanel >= NUMBER_OF_CHANEL) chanel = 0;
     }
 }
 /**
-  * @brief  send packet to dimmer modul and receive response
-  * @retval 1 fail ; 0 success
+  * @brief  pošalji paket dimeru i cekaj odgovor sa više pokušaja
+  * @param  
+  * @retval 0 = uspješno / 1 = nije uspješno
   */
 uint8_t send(uint8_t *buf, uint8_t len)
 {
-    uint8_t ret = 5; // broj pokušaja 
-    uint8_t res = 1; // odgovor
+    uint8_t ret = 5; // broj pokušaja
+    uint8_t res = 1; // odgovor negativan
     uint8_t wait = 10; // vrijeme odgovora * 2ms
-    
+
     do {
         dimrxcnt = 0;
         memset(dimrxbuf, 0, DIMRXBUF_SIZE);
@@ -348,20 +448,25 @@ uint8_t send(uint8_t *buf, uint8_t len)
     } while(ret--);
     return res;
 }
-void save_value(uint8_t ch, uint16_t value)
-{
-    // Ova funkcija ce se koristiti za spremanje podataka u EEPROM
-}
+/**
+  * @brief  podesi stanje led dioda na panelu prema vrijednosti izlaza
+  * @param   
+  * @retval 
+  */
 void refresh_led(void)
 {
     for (uint8_t i = 0; i < 4; i++) {
-        if(led_ch[i].state < ERR)
+        if(menu_activ || dimm_ch[i].state < ERR)
         {
-            HAL_GPIO_WritePin(LED_PORT[i], LED_PIN[i], (led_ch[i].value > 0) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(LED_PORT[i], LED_PIN[i], (dimm_ch[i].value > 0) ? GPIO_PIN_SET : GPIO_PIN_RESET);
         }
     }
 }
-
+/**
+  * @brief  reaguj na pritisak tastera na prednjem panelu modula
+  * @param   
+  * @retval 
+  */
 void handle_buttons(void)
 {
     uint32_t current_time = HAL_GetTick();
@@ -378,16 +483,17 @@ void handle_buttons(void)
             menu_timer = current_time + MENU_TIMEOUT;
             last_press_time = current_time; // load first press time
             refresh_led();
+            get_address();
             HAL_Delay(BUTTON_PAUSE);
         }
         else if (error_state && (current_time - last_press_time > RESET_PRESS_MIN)) {
             error_state = 0;
-            restart_all();
+            restart_all(); // restartuj sve izlaze i ponovo ucitaj varijable iz eeproma
             HAL_Delay(200);
             for (uint8_t i = 0; i < 4; i++) {
                 reset_ch(i);
                 get_state(i);
-                if(led_ch[i].state >= ERR) error_state = 1;
+                if(dimm_ch[i].state >= ERR) error_state = 1;
             }
         }
 
@@ -406,8 +512,8 @@ void handle_buttons(void)
             HAL_Delay(BUTTON_PAUSE);
         }
         else if (current_time - last_press_time > LONG_PRESS_MIN && current_time - last_increment_time > LONG_PRESS_INTERVAL) {
-            if (led_ch[selected_channel].value < 1000) {
-                ++led_ch[selected_channel].value;
+            if (dimm_ch[selected_channel].value < 1000) {
+                ++dimm_ch[selected_channel].value;
                 set_value(selected_channel);
             }
             last_increment_time = current_time;
@@ -419,7 +525,7 @@ void handle_buttons(void)
         button_up_prev = 0; // release button press
         if((current_time - last_press_time) < LONG_PRESS_MIN)// check  for short press time window
         {
-            led_ch[selected_channel].value = 1000;
+            dimm_ch[selected_channel].value = 1000;
             set_value(selected_channel);
         }
         HAL_Delay(BUTTON_PAUSE);
@@ -431,8 +537,8 @@ void handle_buttons(void)
             last_press_time = current_time; // load first press time
             HAL_Delay(BUTTON_PAUSE);
         } else if (current_time - last_press_time > LONG_PRESS_MIN && current_time - last_increment_time > LONG_PRESS_INTERVAL) {
-            if (led_ch[selected_channel].value > 0) {
-                --led_ch[selected_channel].value;
+            if (dimm_ch[selected_channel].value > 0) {
+                --dimm_ch[selected_channel].value;
                 set_value(selected_channel);
             }
             last_increment_time = current_time;
@@ -444,19 +550,20 @@ void handle_buttons(void)
         button_down_prev = 0; // release button press
         if((current_time - last_press_time) < LONG_PRESS_MIN)// check  for short press time windows
         {
-            led_ch[selected_channel].value = 0;
+            dimm_ch[selected_channel].value = 0;
             set_value(selected_channel);
         }
         HAL_Delay(BUTTON_PAUSE);
     }
-
-    if (button_ok == GPIO_PIN_SET && button_ok_prev == GPIO_PIN_RESET) {
-        save_value(selected_channel, led_ch[selected_channel].value);
-    }
 }
-
+/**
+  * @brief  logika korisnickog menija sa led diodama i tasterima na prednjem panelu modula
+  * @param   
+  * @retval 
+  */
 void menu_logic(void)
 {
+    static bool error_led_state = true;  // true = LED ukljucene, false = LED iskljucene
     uint32_t current_time = HAL_GetTick();
     if (current_time > menu_timer) {
         selected_channel = 3;
@@ -468,14 +575,88 @@ void menu_logic(void)
         HAL_GPIO_TogglePin(LED_PORT[selected_channel], LED_PIN[selected_channel]);
         last_toggle_time = current_time;
     }
-    if (error_state && (current_time - last_err_toggle_time >= ERROR_TOGGLE_INTERVAL)) {
-        for(uint8_t i = 0; i < 4; i++)
-        {
-            if(led_ch[i].state >= ERR) HAL_GPIO_TogglePin(LED_PORT[i], LED_PIN[i]);
+    if (!menu_activ && error_state && (current_time - last_err_toggle_time >= ERROR_TOGGLE_INTERVAL)) {
+        // Ako je uredaj u error stanju, postavi sve LED u istom stanju
+        for (uint8_t i = 0; i < 4; i++) {
+            if (dimm_ch[i].state >= ERR) {
+                // Ako je error_led_state true, ukljucuju se LED, inace iskljucuju
+                HAL_GPIO_WritePin(LED_PORT[i], LED_PIN[i], error_led_state ? GPIO_PIN_SET : GPIO_PIN_RESET);
+            }
         }
         last_err_toggle_time = current_time;
+        error_led_state = !error_led_state;  // Prebacivanje stanja (ako se neko stanje promeni)
     }
 }
+/**
+  * @brief  mali efekt sa LED diodama prednjeg panela kod ukljucenja
+  * @param   
+  * @retval 
+  */
+void start_effect(void)
+{
+    // 1. Punjenje iz sredine (LED_CH2 i LED_CH3 prvo)
+    HAL_GPIO_WritePin(LED_CH2_GPIO_Port, LED_CH2_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(LED_CH3_GPIO_Port, LED_CH3_Pin, GPIO_PIN_SET);
+    HAL_Delay(100);
+    HAL_GPIO_WritePin(LED_CH1_GPIO_Port, LED_CH1_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(LED_CH4_GPIO_Port, LED_CH4_Pin, GPIO_PIN_SET);
+    HAL_Delay(200);
+
+    // Gašenje svih LED
+    HAL_GPIO_WritePin(LED_CH1_GPIO_Port, LED_CH1_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LED_CH2_GPIO_Port, LED_CH2_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LED_CH3_GPIO_Port, LED_CH3_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LED_CH4_GPIO_Port, LED_CH4_Pin, GPIO_PIN_RESET);
+    HAL_Delay(100);
+
+#ifdef USE_WATCHDOG
+    HAL_IWDG_Refresh(&hiwdg);
+#endif
+
+    // 2. Brzi svjetlosni odjek (napred i nazad)
+    GPIO_TypeDef *ports[] = {LED_CH1_GPIO_Port, LED_CH2_GPIO_Port, LED_CH3_GPIO_Port, LED_CH4_GPIO_Port};
+    const uint16_t pins[] = {LED_CH1_Pin, LED_CH2_Pin, LED_CH3_Pin, LED_CH4_Pin};
+    for(int i = 0; i < 4; i++)
+    {
+        // Naprijed (CH1 -> CH2 -> CH3 -> CH4)
+        for (int i = 0; i < 4; i++)
+        {
+            HAL_GPIO_WritePin(ports[i], pins[i], GPIO_PIN_SET);
+            HAL_Delay(50);
+            HAL_GPIO_WritePin(ports[i], pins[i], GPIO_PIN_RESET);
+        }
+
+        // Nazad (CH4 -> CH3 -> CH2 -> CH1)
+        for (int i = 3; i >= 0; i--)
+        {
+            HAL_GPIO_WritePin(ports[i], pins[i], GPIO_PIN_SET);
+            HAL_Delay(50);
+            HAL_GPIO_WritePin(ports[i], pins[i], GPIO_PIN_RESET);
+        }        
+    }
+
+
+#ifdef USE_WATCHDOG
+    HAL_IWDG_Refresh(&hiwdg);
+#endif
+
+    // 3. Završni treptaji (3 puta)
+    for (int i = 0; i < 3; i++)
+    {
+        HAL_GPIO_WritePin(LED_CH1_GPIO_Port, LED_CH1_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED_CH2_GPIO_Port, LED_CH2_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED_CH3_GPIO_Port, LED_CH3_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED_CH4_GPIO_Port, LED_CH4_Pin, GPIO_PIN_SET);
+        HAL_Delay(100);
+
+        HAL_GPIO_WritePin(LED_CH1_GPIO_Port, LED_CH1_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(LED_CH2_GPIO_Port, LED_CH2_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(LED_CH3_GPIO_Port, LED_CH3_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(LED_CH4_GPIO_Port, LED_CH4_Pin, GPIO_PIN_RESET);
+        HAL_Delay(100);
+    }
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -488,6 +669,7 @@ int main(void)
     /* USER CODE BEGIN 1 */
 
     /* USER CODE END 1 */
+    
 
     /* MCU Configuration--------------------------------------------------------*/
 
@@ -514,34 +696,23 @@ int main(void)
     MX_USART2_UART_Init();
     /* USER CODE BEGIN 2 */
     RS485_Init();
+    start_effect();
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while (1)
     {
+        if(restart == true) restart_all(), Error_Handler(); // neko je iskao restart
         handle_buttons();
         menu_logic();
 
         switch(sys_state)
         {
         case INIT:
-            my_address = 0;
-            if(HAL_GPIO_ReadPin(ADDRESS_0_GPIO_Port, ADDRESS_0_Pin) == GPIO_PIN_RESET) my_address |= 0x01;
-            if(HAL_GPIO_ReadPin(ADDRESS_1_GPIO_Port, ADDRESS_1_Pin) == GPIO_PIN_RESET) my_address |= 0x02;
-            if(HAL_GPIO_ReadPin(ADDRESS_2_GPIO_Port, ADDRESS_2_Pin) == GPIO_PIN_RESET) my_address |= 0x04;
-            if(HAL_GPIO_ReadPin(ADDRESS_3_GPIO_Port, ADDRESS_3_Pin) == GPIO_PIN_RESET) my_address |= 0x08;
-            if(HAL_GPIO_ReadPin(ADDRESS_4_GPIO_Port, ADDRESS_4_Pin) == GPIO_PIN_RESET) my_address |= 0x10;
-            if(HAL_GPIO_ReadPin(ADDRESS_5_GPIO_Port, ADDRESS_5_Pin) == GPIO_PIN_RESET) my_address |= 0x20;
-            led_ch[0].scale_hi = 1000;
-            led_ch[1].scale_hi = 1000;
-            led_ch[2].scale_hi = 1000;
-            led_ch[3].scale_hi = 1000;
-            led_ch[0].state = 2;
-            led_ch[1].state = 2;
-            led_ch[2].state = 2;
-            led_ch[3].state = 2;
-            error_state = 1;
+            get_address();
+            restart_all();
+            error_state = 1; 
             sys_state = RUN;
             break;
         case RUN:
@@ -554,7 +725,9 @@ int main(void)
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
-
+#ifdef USE_WATCHDOG
+        HAL_IWDG_Refresh(&hiwdg);
+#endif
     }
     /* USER CODE END 3 */
 }
@@ -700,7 +873,7 @@ static void MX_IWDG_Init(void)
 
     /* USER CODE END IWDG_Init 1 */
     hiwdg.Instance = IWDG;
-    hiwdg.Init.Prescaler = IWDG_PRESCALER_4;
+    hiwdg.Init.Prescaler = IWDG_PRESCALER_32;
     hiwdg.Init.Window = 4095;
     hiwdg.Init.Reload = 4095;
     if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
@@ -827,118 +1000,145 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 /**
-  * @brief
+  * @brief  Prati komunikaciju za DIMMER_SET tipu kanala za podešavanje nove vrijednosti izlaza dimera
   * @param
   * @retval
   */
-TF_Result STATUS_Listener(TinyFrame *tf, TF_Msg *msg)
+TF_Result DIMMER_SET_Listener(TinyFrame *tf, TF_Msg *msg)
 {
-    uint8_t resp[16] = {0}, response = 0;
-    uint16_t addr = (msg->data[0] << 8) + msg->data[1];
-    uint8_t diml = (my_address * 4) - 3;
-    uint8_t dimh =  my_address * 4;
-
-    if(addr && (addr >= diml) && (addr <= dimh))
-    {
-        if ((msg->data[2]) == GET_DIMMER_STATE)
-        {
-            response = 12;
-            resp[0] = msg->data[0];
-            resp[1] = msg->data[1];
-            resp[2] = msg->data[2];
-            resp[3] = map_hi2lo(led_ch[addr - diml].value, led_ch[addr - diml].scale_hi, led_ch[addr - diml].scale_lo, 0, 100);
-            resp[4] = led_ch[addr - diml].ramp;
-            resp[5] = led_ch[addr - diml].temp;
-            resp[6] = led_ch[addr - diml].temp_limit;
-            resp[7] = led_ch[addr - diml].scale_hi >> 8;
-            resp[8] = led_ch[addr - diml].scale_hi & 0xff;
-            resp[9] = led_ch[addr - diml].scale_lo >> 8;
-            resp[10] = led_ch[addr - diml].scale_lo & 0xff;
-            resp[11] = led_ch[addr - diml].state;
-        }
-        else if ((msg->data[2]) == GET_DIMMER_VALUE)
-        {
-            response = 4;
-            resp[0] = msg->data[0];
-            resp[1] = msg->data[1];
-            resp[2] = msg->data[2];
-            resp[3] = map_hi2lo(led_ch[addr - diml].value, led_ch[addr - diml].scale_hi, led_ch[addr - diml].scale_lo, 0, 100);
-        }
-        if(response)
-        {
-            msg->data = resp;
-            msg->len = response;
-            TF_Respond(tf, msg);
-        }
-    }
-    return TF_STAY;
-}
-/**
-  * @brief
-  * @param
-  * @retval
-  */
-TF_Result DIMMER_Listener(TinyFrame *tf, TF_Msg *msg)
-{
-    uint8_t resp[16] = {0}, response = 0;
+    uint8_t resp[4] = {0};
     uint16_t addr = (msg->data[0] << 8) + msg->data[1];
     uint8_t diml = (my_address * 4) - 3;
     uint8_t dimh =  my_address * 4;
     uint8_t ch = addr - diml; // selected dimmer
 
-    if(addr && (addr >= diml) && (addr <= dimh))
+    if(addr && my_address && (addr >= diml) && (addr <= dimh))
+    {
+        dimm_ch[ch].value = map_dimmer_value(msg->data[2], dimm_ch[ch].scale_lo, dimm_ch[ch].scale_hi); // Skaliraj u 0~1000 okvir
+        dimm_ch[ch].update = true; // Nova vrijednost na tržištu
+        memcpy(resp, msg->data, 3); // Kopiraj ulazni bafer u odgovor
+        resp[3] = ACK; // Dodaj potvrdni bajt
+        msg->data = resp; // Naštimaj odgovor za pointer
+        msg->len = 4; // Odgovor je 4 bajta
+        TF_Respond(tf, msg); // Šalji nazad
+    }
+    return TF_STAY;;
+}
+/**
+  * @brief  Prati komunikaciju za DIMMER_GET tipu kanala za zahtjev o statusu kanala dimera
+  * @param
+  * @retval
+  */
+TF_Result DIMMER_GET_Listener(TinyFrame *tf, TF_Msg *msg)
+{
+    uint8_t resp[11] = {0};
+    uint16_t addr = (msg->data[0] << 8) + msg->data[1];
+    uint8_t diml = (my_address * 4) - 3;
+    uint8_t dimh =  my_address * 4;
+
+    if(addr && my_address && (addr >= diml) && (addr <= dimh))
+    {
+        resp[0] = msg->data[0]; // Kopiraj adresu dimera u odgovoru zbog
+        resp[1] = msg->data[1]; // provjere na uredaju koji je poslao zahtjev
+        resp[2] = map_hi2lo(dimm_ch[addr - diml].value, dimm_ch[addr - diml].scale_hi, dimm_ch[addr - diml].scale_lo, 0, 100); // mapiraj 0~1000 na 0~100
+        resp[3] = dimm_ch[addr - diml].ramp; // Trenutna rampa prirasta kanala dimera
+        resp[4] = dimm_ch[addr - diml].temp; // Trenutna temperature kanala dimera
+        resp[5] = dimm_ch[addr - diml].temp_limit; // Podešeni limit temperature
+        resp[6] = dimm_ch[addr - diml].scale_hi >> 8; // Skalirna vrijednost maksimuma gornji bajt
+        resp[7] = dimm_ch[addr - diml].scale_hi & 0xff; // Skalirna vrijednost maksimuma donji bajt
+        resp[8] = dimm_ch[addr - diml].scale_lo >> 8; // Skalirna vrijednost minimuma gornji bajt
+        resp[9] = dimm_ch[addr - diml].scale_lo & 0xff; // Skalirna vrijednost maksimuma donji bajt
+        resp[10] = dimm_ch[addr - diml].state; // Trenutno stanje kanala  dimera 0 = init, 1 = u radu, 2 = greška temperaturna zaštita
+        msg->data = resp; // Podesi pointer na bafer odgovora
+        msg->len = 11; // Odgovor je 11 bajta
+        TF_Respond(tf, msg); // Šalji odgovor
+    }
+    return TF_STAY;
+}
+/**
+  * @brief  Prati komunikaciju za DIMMER_RESET tipu kanala za softverski restart jednog kanala dimera
+  * @param
+  * @retval
+  */
+TF_Result DIMMER_RESET_Listener(TinyFrame *tf, TF_Msg *msg)
+{
+    uint8_t resp[3] = {0};
+    uint16_t addr = (uint16_t)(msg->data[0] << 8) | msg->data[1];
+    uint8_t diml = (my_address * 4) - 3;
+    uint8_t dimh =  my_address * 4;
+    uint8_t ch = addr - diml; // selected dimmer
+
+    if(addr && my_address && (addr >= diml) && (addr <= dimh))
     {
         resp[0] = msg->data[0];
         resp[1] = msg->data[1];
-        resp[2] = msg->data[2];
-        resp[3] = msg->data[3];
-
-        if      ((msg->data[2]) == SET_DIMMER_VALUE)
+        resp[2] = (reset_ch(ch) == 0) ? ACK:NAK;
+        msg->data = resp; // Naštimaj odgovor za pointer
+        msg->len = 3; // Odgovor je 4 bajta
+        TF_Respond(tf, msg); // Šalji nazad
+    }
+    else if(my_address && (addr == 0x55AA))
+    {
+        for(int i = 0; i < NUMBER_OF_CHANEL; i++)
         {
-            led_ch[ch].value = map_dimmer_value(msg->data[3], led_ch[ch].scale_lo, led_ch[ch].scale_hi);
-            led_ch[ch].update = true;
-            resp[4] = ACK;
-            response = 5;
-        }
-        else if ((msg->data[2]) == SET_DIMMER_RAMP)
-        {
-            led_ch[ch].ramp = msg->data[3];
-            led_ch[ch].update = true;
-            resp[4] = ACK;            
-            response = 5;
-        }
-        else if ((msg->data[2]) == SET_DIMMER_SCALING)
-        {
-            led_ch[ch].scale_hi = ((uint16_t) msg->data[3] << 8)|msg->data[4];
-            led_ch[ch].scale_lo = ((uint16_t) msg->data[5] << 8)|msg->data[6];
-            resp[7] = ACK;
-            response = 8;
-        }
-        else if ((msg->data[2]) == SET_DIMMER_TEMPERATURE)
-        {
-            led_ch[ch].temp_limit = msg->data[3];
-            led_ch[ch].update = true;
-            resp[4] = ACK;
-            response = 5;
-        }
-        else if ((msg->data[2]) == DIMMER_RESET)
-        {
-            led_ch[ch].reset = true;
-            resp[3] = ACK;;
-            response = 4;
-            sys_state = INIT;
-        }
-
-        if(response)
-        {
-            msg->data = resp;
-            msg->len = response;
-            TF_Respond(tf, msg);
+            reset_ch(i);
         }
     }
-    else if((addr == 0x55AA) && (msg->data[2] == DIMMER_RESET))
+    return TF_STAY;;
+}
+/**
+  * @brief  Prati komunikaciju na DIMMER_SETUP tipu kanala za podešavanje novih postavki dimera
+  * @param
+  * @retval
+  */
+TF_Result DIMMER_SETUP_Listener(TinyFrame *tf, TF_Msg *msg)
+{
+    uint8_t resp[9] = {0};
+    uint16_t addr = (msg->data[0] << 8) + msg->data[1];
+    uint8_t diml = (my_address * 4) - 3;
+    uint8_t dimh =  my_address * 4;
+    uint8_t ch = addr - diml; // selected dimmer
+
+    if(addr && my_address && (addr >= diml) && (addr <= dimh))
     {
-        sys_state = INIT;
+        dimm_ch[ch].ramp = msg->data[2]; // Podei novu rampu prirasta avrijednosti dimera
+        dimm_ch[ch].temp_limit = msg->data[3]; // Podesi novi temperaturni limit
+        dimm_ch[ch].scale_hi = ((uint16_t) msg->data[4] << 8)|msg->data[5]; // Nova vrijednost skaliranja maksimum
+        dimm_ch[ch].scale_lo = ((uint16_t) msg->data[6] << 8)|msg->data[7]; // Nova vrijednost skaliranja minimum
+        dimm_ch[ch].update = true; // Nova vrijednost za dimmer kanal
+        memcpy(resp, msg->data, 8);  // Kopiraj ulazni bafer u odgovor
+        resp[8] = ACK; // Dodaj potvrdni bajt
+        msg->data = resp; // Naštimaj odgovor za pointer
+        msg->len = 9; // Odgovor je 9 bajta
+        TF_Respond(tf, msg); // Šalji nazad
+    }
+    return TF_STAY;;
+}
+/**
+  * @brief  Prati komunikaciju za DIMMER_RESTART tipu kanala za softverski restart modula dimera ciji je adresirani kanal
+  * @param
+  * @retval
+  */
+TF_Result DIMMER_RESTART_Listener(TinyFrame *tf, TF_Msg *msg)
+{
+    uint8_t resp[3] = {0};
+    uint16_t addr = (uint16_t)(msg->data[0] << 8) | msg->data[1];
+    uint8_t diml = (my_address * 4) - 3;
+    uint8_t dimh =  my_address * 4;
+
+    if(addr && my_address && (addr >= diml) && (addr <= dimh))
+    {
+        resp[0] = msg->data[0];
+        resp[1] = msg->data[1];
+        resp[2] = ACK;
+        msg->data = resp; // Naštimaj odgovor za pointer
+        msg->len = 3; // Odgovor je 4 bajta
+        TF_Respond(tf, msg); // Šalji nazad
+        restart = true; // podesi flag da bi vratio odgovor prvo pa tek onda pokrenuo restart
+    }
+    else if(my_address && (addr == 0x55AA))
+    {
+        restart = true; // podesi flag da bi restartovo i module
     }
     return TF_STAY;;
 }
@@ -949,6 +1149,7 @@ TF_Result DIMMER_Listener(TinyFrame *tf, TF_Msg *msg)
   */
 void TF_WriteImpl(TinyFrame *tf, const uint8_t *buff, uint32_t len)
 {
+    delay_us(2000);
     HAL_UART_Transmit(&huart1,(uint8_t*)buff, len, RESP_TOUT);
     HAL_UART_Receive_IT(&huart1, &rec, 1);
 }
@@ -962,8 +1163,11 @@ void RS485_Init(void)
     if(!init_tf)
     {
         init_tf = TF_InitStatic(&tfapp, TF_SLAVE);
-        TF_AddTypeListener(&tfapp, V_DIMMER, STATUS_Listener);
-        TF_AddTypeListener(&tfapp, S_DIMMER, DIMMER_Listener);
+        TF_AddTypeListener(&tfapp, DIMMER_SET, DIMMER_SET_Listener);
+        TF_AddTypeListener(&tfapp, DIMMER_GET, DIMMER_GET_Listener);
+        TF_AddTypeListener(&tfapp, DIMMER_SETUP, DIMMER_SETUP_Listener);
+        TF_AddTypeListener(&tfapp, DIMMER_RESET, DIMMER_RESET_Listener);
+        TF_AddTypeListener(&tfapp, DIMMER_RESTART, DIMMER_RESTART_Listener);
     }
     HAL_UART_Receive_IT(&huart1, &rec, 1);
 }
@@ -1018,7 +1222,7 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
     __HAL_UART_CLEAR_IDLEFLAG(huart);
     __HAL_UART_CLEAR_OREFLAG(huart);
     HAL_UART_AbortReceive(huart);
-    
+
     if(huart->Instance == USART1)
     {
         HAL_UART_Receive_IT(huart, &rec, 1);
@@ -1043,7 +1247,7 @@ void Error_Handler(void)
     __disable_irq();
     while (1)
     {
-        HAL_NVIC_SystemReset();  
+        HAL_NVIC_SystemReset();
     }
     /* USER CODE END Error_Handler_Debug */
 }

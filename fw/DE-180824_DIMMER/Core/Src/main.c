@@ -37,9 +37,9 @@ enum {
     DIMM_SET_VALUE = 0x01,
     DIMM_SET_RAMP = 0x02,
     DIMM_SET_TEMPERATURE = 0x03,
-    DIMM_RESET = 0x04,
+    DIMM_RESET = 0x04,// softverski reset jednog kanala dimera 0x55 specijalna adresa za sve kanale na busu
     DIMM_GET_STATE = 0x05,
-    DIMM_RESTART = 0x06
+    DIMM_RESTART = 0x06 // softverski restart modula dimera i svih kanala na njemu
 };
 
 typedef enum {
@@ -97,17 +97,17 @@ volatile eSYSstate dimmer_state = INIT;
 volatile uint8_t dimmer_address = 0, i;
 volatile uint8_t dimmer_temp_limit = 90;
 volatile uint8_t dimmer_ramp = 0;
-uint8_t uart_rx_buffer[UART_BUFFER_SIZE];
-uint8_t rx_byte;
-uint8_t rxcnt = 0;
-float ntc_temperature = 0;
-const uint16_t upper_limit = 990;   // preko ove vrijednosti moguce treperenje
 volatile uint16_t dimmer_new_value = 0;   // Ciljna vrednost
 volatile uint32_t last_ramp_tick = 0;  // Pamti zadnje azuriranje
 volatile uint32_t last_ntc_tick = 0;  // Pamti zadnje azuriranje
 volatile uint16_t dimmer_value = 0;  // Vrijednost (0-1000) odreduje ugao iskljucenja
 volatile uint8_t mosfet_on = 0; // Oznaka da je MOSFET ukljucen
 volatile uint8_t received = 0; // Oznaka da je primljen paket
+float ntc_temperature = 0;
+const uint16_t upper_limit = 990;   // preko ove vrijednosti moguce treperenje
+uint8_t uart_rx_buffer[UART_BUFFER_SIZE];
+uint8_t rx_byte;
+uint8_t rxcnt = 0;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -363,7 +363,7 @@ static void MX_IWDG_Init(void)
 
     /* USER CODE END IWDG_Init 1 */
     hiwdg.Instance = IWDG;
-    hiwdg.Init.Prescaler = IWDG_PRESCALER_4;
+    hiwdg.Init.Prescaler = IWDG_PRESCALER_32;
     hiwdg.Init.Window = 4095;
     hiwdg.Init.Reload = 4095;
     if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
@@ -616,7 +616,7 @@ void process_uart_command() {
         }
         break;
     case DIMM_RESET:
-        if ((id == 0x55)||(id == dimmer_address)) {
+        if (id == dimmer_address) {
             dimmer_value = 0;
             dimmer_new_value = 0;
             dimmer_ramp = uart_rx_buffer[2];

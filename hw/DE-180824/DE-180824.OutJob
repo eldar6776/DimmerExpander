@@ -1,5 +1,18 @@
 [OutputJobFile]
 Version=1.0
+Caption=
+Description=
+VaultGUID=
+ItemGUID=
+ItemHRID=
+RevisionGUID=
+RevisionId=
+VaultHRID=
+AutoItemHRID=
+NextRevId=
+FolderGUID=
+LifeCycleDefinitionGUID=
+RevisionNamingSchemeGUID=
 
 [PublishSettings]
 OutputFilePath2=C:\ProjektiOtvoreni\Expanderi\Dimmer\hw\DE-180824\.PDF

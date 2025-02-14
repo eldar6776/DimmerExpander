@@ -1,0 +1,773 @@
+\doxysection{Core/\+Src/main.c File Reference}
+\hypertarget{main_8c}{}\label{main_8c}\index{Core/Src/main.c@{Core/Src/main.c}}
+
+
+\+: Main program body  
+
+
+{\ttfamily \#include "{}main.\+h"{}}\newline
+Include dependency graph for main.\+c\+:
+% FIG 0
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structs_led_chanel}{s\+Led\+Chanel}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{main_8c_ac58e20e652df1ce7fc83db120ac2e80b}\label{main_8c_ac58e20e652df1ce7fc83db120ac2e80b} 
+\#define {\bfseries DIMRXBUF\+\_\+\+SIZE}~16
+\item 
+\Hypertarget{main_8c_a4d72d1ca8b3b74647ab67ee680ba695d}\label{main_8c_a4d72d1ca8b3b74647ab67ee680ba695d} 
+\#define {\bfseries NUMBER\+\_\+\+OF\+\_\+\+CHANEL}~4
+\item 
+\Hypertarget{main_8c_af2d455f8abdf88d6fc32e91783ea57c4}\label{main_8c_af2d455f8abdf88d6fc32e91783ea57c4} 
+\#define {\bfseries MENU\+\_\+\+TIMEOUT}~10000
+\item 
+\Hypertarget{main_8c_af2dcf2673c0b089316d3567f0684e78d}\label{main_8c_af2dcf2673c0b089316d3567f0684e78d} 
+\#define {\bfseries SHORT\+\_\+\+PRESS\+\_\+\+MIN}~10
+\item 
+\Hypertarget{main_8c_ae9ce001232d68da560d61906fd98937f}\label{main_8c_ae9ce001232d68da560d61906fd98937f} 
+\#define {\bfseries SHORT\+\_\+\+PRESS\+\_\+\+MAX}~200
+\item 
+\Hypertarget{main_8c_a880ca8d2801fd9d437f59f7f90f97472}\label{main_8c_a880ca8d2801fd9d437f59f7f90f97472} 
+\#define {\bfseries LONG\+\_\+\+PRESS\+\_\+\+MIN}~1000
+\item 
+\Hypertarget{main_8c_a3188b3d4a0dcebb104b0bc21af398650}\label{main_8c_a3188b3d4a0dcebb104b0bc21af398650} 
+\#define {\bfseries RESET\+\_\+\+PRESS\+\_\+\+MIN}~5000
+\item 
+\Hypertarget{main_8c_a142af927e0a9f43f8c163da43dfad7a3}\label{main_8c_a142af927e0a9f43f8c163da43dfad7a3} 
+\#define {\bfseries LONG\+\_\+\+PRESS\+\_\+\+INTERVAL}~5
+\item 
+\Hypertarget{main_8c_a86ceb02c3058275573c9d1a3c9e45582}\label{main_8c_a86ceb02c3058275573c9d1a3c9e45582} 
+\#define {\bfseries INCREMENT\+\_\+\+STEP}~5
+\item 
+\Hypertarget{main_8c_ae5fdea030f41b3e03532c99c07abb08d}\label{main_8c_ae5fdea030f41b3e03532c99c07abb08d} 
+\#define {\bfseries TOGGLE\+\_\+\+INTERVAL}~500
+\item 
+\Hypertarget{main_8c_a645cc2466c2dca5fe6c33d0e4851e522}\label{main_8c_a645cc2466c2dca5fe6c33d0e4851e522} 
+\#define {\bfseries ERROR\+\_\+\+TOGGLE\+\_\+\+INTERVAL}~50
+\item 
+\Hypertarget{main_8c_a3f16720d98861b92d56817241b0e2753}\label{main_8c_a3f16720d98861b92d56817241b0e2753} 
+\#define {\bfseries BUTTON\+\_\+\+PAUSE}~200
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{main_8c_af9534bb999c510ae035ca0dc0bfdd65b}\label{main_8c_af9534bb999c510ae035ca0dc0bfdd65b} 
+enum \{ \newline
+{\bfseries \+\_\+\+SET\+\_\+\+DIMMER\+\_\+\+VALUE} = 0x01
+, {\bfseries \+\_\+\+SET\+\_\+\+DIMMER\+\_\+\+RAMP} = 0x02
+, {\bfseries \+\_\+\+SET\+\_\+\+DIMMER\+\_\+\+TEMPERATURE} = 0x03
+, {\bfseries \+\_\+\+DIMMER\+\_\+\+RESET} = 0x04
+, \newline
+{\bfseries \+\_\+\+GET\+\_\+\+DIMMER\+\_\+\+STATE} = 0x05
+, {\bfseries \+\_\+\+DIMMER\+\_\+\+RESTART} = 0x06
+ \}
+\item 
+\Hypertarget{main_8c_a7ddacebd910d75f98c72bbda8f70bfc7}\label{main_8c_a7ddacebd910d75f98c72bbda8f70bfc7} 
+enum {\bfseries e\+Sys\+State} \{ {\bfseries INIT} = 0
+, {\bfseries RUN}
+, {\bfseries ERR}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{main_8c_a70af21c671abfcc773614a9a4f63d920}{System\+Clock\+\_\+\+Config}} (void)
+\begin{DoxyCompactList}\small\item\em System Clock Configuration. \end{DoxyCompactList}\item 
+\Hypertarget{main_8c_a1fa1df75890436e5d1c710581e8eef59}\label{main_8c_a1fa1df75890436e5d1c710581e8eef59} 
+TF\+\_\+\+Result {\bfseries TYPE\+\_\+\+Listener} (Tiny\+Frame \texorpdfstring{$\ast$}{*}tf, TF\+\_\+\+Msg \texorpdfstring{$\ast$}{*}msg)
+\item 
+\Hypertarget{main_8c_a05757bedd3ca044d7c842aa6b9a22bb8}\label{main_8c_a05757bedd3ca044d7c842aa6b9a22bb8} 
+void {\bfseries save\+\_\+value} (uint8\+\_\+t ch, uint16\+\_\+t value)
+\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_a881254d61195fa9aafc6efd29add7e6f}{send}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}buf, uint8\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em pošalji paket dimeru i cekaj odgovor sa više pokušaja \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_a4f848fed3cdaa0e0337ba00041394086}{set\+\_\+value}} (uint8\+\_\+t ch)
+\begin{DoxyCompactList}\small\item\em podesi izlaz jednog dimera \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_a4859b0e3dc6bf95c3a4a58bcfd457ef4}{set\+\_\+ramp}} (uint8\+\_\+t ch)
+\begin{DoxyCompactList}\small\item\em podesi rampu promjene izlaza jednog dimera \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_a317226e89dadac956acd8df62fe41e50}{reset\+\_\+ch}} (uint8\+\_\+t ch)
+\begin{DoxyCompactList}\small\item\em resetuj jedan dimera tako da se izlaz postavlja na 0 a rampa i temp.\+limit reinicijalizujui briše status greške \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_a06fcc0c0b03829d94b7c555561f8a2be}{set\+\_\+temp}} (uint8\+\_\+t ch)
+\begin{DoxyCompactList}\small\item\em podesi temperaturni limit jednog dimera \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_a2c02ce7bd2ebe205dc158744ed04473f}{get\+\_\+state}} (uint8\+\_\+t ch)
+\begin{DoxyCompactList}\small\item\em trazi stanje jednog dimera \end{DoxyCompactList}\item 
+\Hypertarget{main_8c_afd76a308c9c24c774d5a1f3b5b9ee57b}\label{main_8c_afd76a308c9c24c774d5a1f3b5b9ee57b} 
+void {\bfseries refresh} (void)
+\item 
+void \mbox{\hyperlink{main_8c_a80c36d7310c93df8f1779c7665783525}{handle\+\_\+buttons}} (void)
+\begin{DoxyCompactList}\small\item\em reaguj na pritisak tastera na prednjem panelu modula \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a834c8f6be17b5c6bfe3e9411dd33ce73}{menu\+\_\+logic}} (void)
+\begin{DoxyCompactList}\small\item\em logika korisnickog menija sa led diodama i tasterima na prednjem panelu modula \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a6a7e50c9a5fdeb113f022798f3d46f82}{RS485\+\_\+\+Init}} (void)
+\item 
+uint16\+\_\+t \mbox{\hyperlink{main_8c_a8895f8ebe73ecfe8a66154cf8728e664}{map\+\_\+dimmer\+\_\+value}} (uint8\+\_\+t dimmer\+\_\+value, uint16\+\_\+t lower\+\_\+limit, uint16\+\_\+t upper\+\_\+limit)
+\begin{DoxyCompactList}\small\item\em Mapiranje vrednosti izmedu 1 i 99 u raspon 0\texorpdfstring{$\sim$}{\string~}1000, ulazni 0 i 100 se odmah vracaju kao 0 i 1000. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_a7546b590d13b2ec7226c884d333a7900}{map\+\_\+hi2lo}} (uint16\+\_\+t in\+\_\+value, uint16\+\_\+t in\+\_\+min, uint16\+\_\+t in\+\_\+max, uint8\+\_\+t out\+\_\+min, uint8\+\_\+t out\+\_\+max)
+\begin{DoxyCompactList}\small\item\em Genericka funkcija za mapiranje ulazne vrednosti iz vece u manju sa limiterima za ulazne i izlazne vrijednosti ovdje se koristi da se vrijednost dimera koja je u rasponu 0\texorpdfstring{$\sim$}{\string~}1000 skalira na vrijednost podešavanja 0\texorpdfstring{$\sim$}{\string~}100\%. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{main_8c_ad81b6ee3485e14932e670526a8467c34}{map\+\_\+lo2hi}} (uint8\+\_\+t in\+\_\+value, uint8\+\_\+t in\+\_\+min, uint8\+\_\+t in\+\_\+max, uint16\+\_\+t out\+\_\+min, uint16\+\_\+t out\+\_\+max)
+\begin{DoxyCompactList}\small\item\em Genericka funkcija za mapiranje ulazne vrednosti iz manjih u vece sa limiterima za ulazne i izlazne vrijednosti. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_a4362317ed3c4e1c899f17dd1b65cbcb6}{restart\+\_\+ch}} (uint8\+\_\+t ch)
+\begin{DoxyCompactList}\small\item\em restartuj jedan dimera bez inicijalizacije t.\+j. svi parametri su 0 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a36d38b47587e673719ebf10bc8c3e6e1}{get\+\_\+address}} (void)
+\begin{DoxyCompactList}\small\item\em podesi adresu modula dimera na busu prema poziciji DIP switcha \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a6c7154a8125cdf7a20ad94e54b325450}{restart\+\_\+all}} (void)
+\begin{DoxyCompactList}\small\item\em restartuj sve dimere bez inicijalizacije i odgovora \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a398391686b9ea170ea943fcae3bb6e80}{refresh\+\_\+ch}} (void)
+\begin{DoxyCompactList}\small\item\em povremena provjera stanja dimera i podešavanje novih vrijednosti \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a24ba6dd0fd4e4bbf377fa7543f92dabf}{refresh\+\_\+led}} (void)
+\begin{DoxyCompactList}\small\item\em podesi stanje led dioda na panelu prema vrijednosti izlaza \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a82da3b70c01568e773a3a4ec85af5de9}{start\+\_\+efect}} (void)
+\begin{DoxyCompactList}\small\item\em logika korisnickog menija sa led diodama i tasterima na prednjem panelu modula \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{main_8c_a840291bc02cba5474a4cb46a9b9566fe}{main}} (void)
+\begin{DoxyCompactList}\small\item\em The application entry point. \end{DoxyCompactList}\item 
+TF\+\_\+\+Result \mbox{\hyperlink{main_8c_a6250e9748431a13eea2a0f15031d2662}{DIMMER\+\_\+\+SET\+\_\+\+Listener}} (Tiny\+Frame \texorpdfstring{$\ast$}{*}tf, TF\+\_\+\+Msg \texorpdfstring{$\ast$}{*}msg)
+\begin{DoxyCompactList}\small\item\em Prati komunikaciju za DIMMER\+\_\+\+SET tipu kanala za podešavanje nove vrijednosti izlaza dimera. \end{DoxyCompactList}\item 
+TF\+\_\+\+Result \mbox{\hyperlink{main_8c_a263f847472d31e72f31d7f9c3beed950}{DIMMER\+\_\+\+GET\+\_\+\+Listener}} (Tiny\+Frame \texorpdfstring{$\ast$}{*}tf, TF\+\_\+\+Msg \texorpdfstring{$\ast$}{*}msg)
+\begin{DoxyCompactList}\small\item\em Prati komunikaciju za DIMMER\+\_\+\+GET tipu kanala za zahtjev o statusu kanala dimera. \end{DoxyCompactList}\item 
+TF\+\_\+\+Result \mbox{\hyperlink{main_8c_a57ff2a75a573be3928f521cf279ad0c5}{DIMMER\+\_\+\+RESET\+\_\+\+Listener}} (Tiny\+Frame \texorpdfstring{$\ast$}{*}tf, TF\+\_\+\+Msg \texorpdfstring{$\ast$}{*}msg)
+\begin{DoxyCompactList}\small\item\em Prati komunikaciju za DIMMER\+\_\+\+RESET tipu kanala za softverski restart jednog kanala dimera. \end{DoxyCompactList}\item 
+TF\+\_\+\+Result \mbox{\hyperlink{main_8c_a40565cc92a519e150ee1a5ac8ac42592}{DIMMER\+\_\+\+SETUP\+\_\+\+Listener}} (Tiny\+Frame \texorpdfstring{$\ast$}{*}tf, TF\+\_\+\+Msg \texorpdfstring{$\ast$}{*}msg)
+\begin{DoxyCompactList}\small\item\em Prati komunikaciju na DIMMER\+\_\+\+SETUP tipu kanala za podešavanje novih postavki dimera. \end{DoxyCompactList}\item 
+TF\+\_\+\+Result \mbox{\hyperlink{main_8c_a8a2a679b9757e95bc004a088752e3691}{DIMMER\+\_\+\+RESTART\+\_\+\+Listener}} (Tiny\+Frame \texorpdfstring{$\ast$}{*}tf, TF\+\_\+\+Msg \texorpdfstring{$\ast$}{*}msg)
+\begin{DoxyCompactList}\small\item\em Prati komunikaciju za DIMMER\+\_\+\+RESTART tipu kanala za softverski restart modula dimera ciji je adresirani kanal. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_ac5997fdb789fa4e3f5c53be718bb9881}{TF\+\_\+\+Write\+Impl}} (Tiny\+Frame \texorpdfstring{$\ast$}{*}tf, const uint8\+\_\+t \texorpdfstring{$\ast$}{*}buff, uint32\+\_\+t len)
+\item 
+void \mbox{\hyperlink{main_8c_ae494a9643f29b87d6d81e5264e60e57b}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback}} (UART\+\_\+\+Handle\+Type\+Def \texorpdfstring{$\ast$}{*}huart)
+\item 
+void \mbox{\hyperlink{main_8c_abcdf9b59049eccbc87d54042f9235b1a}{HAL\+\_\+\+UART\+\_\+\+Tx\+Cplt\+Callback}} (UART\+\_\+\+Handle\+Type\+Def \texorpdfstring{$\ast$}{*}huart)
+\item 
+void \mbox{\hyperlink{main_8c_a0e0456ea96d55db31de947fb3e954f18}{HAL\+\_\+\+UART\+\_\+\+Error\+Callback}} (UART\+\_\+\+Handle\+Type\+Def \texorpdfstring{$\ast$}{*}huart)
+\item 
+void \mbox{\hyperlink{main_8c_a1730ffe1e560465665eb47d9264826f9}{Error\+\_\+\+Handler}} (void)
+\begin{DoxyCompactList}\small\item\em This function is executed in case of error occurrence. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{main_8c_ae3358c54a01c6487322df1275618d6b1}\label{main_8c_ae3358c54a01c6487322df1275618d6b1} 
+CRC\+\_\+\+Handle\+Type\+Def {\bfseries hcrc}
+\item 
+\Hypertarget{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7}\label{main_8c_af7b2c26e44dadaaa798a5c3d82914ba7} 
+I2\+C\+\_\+\+Handle\+Type\+Def {\bfseries hi2c1}
+\item 
+\Hypertarget{main_8c_a80f055e38f52ca3c57e183fc685ea477}\label{main_8c_a80f055e38f52ca3c57e183fc685ea477} 
+IWDG\+\_\+\+Handle\+Type\+Def {\bfseries hiwdg}
+\item 
+\Hypertarget{main_8c_a2cf715bef37f7e8ef385a30974a5f0d5}\label{main_8c_a2cf715bef37f7e8ef385a30974a5f0d5} 
+UART\+\_\+\+Handle\+Type\+Def {\bfseries huart1}
+\item 
+\Hypertarget{main_8c_aa9479c261d65eecedd3d9582f7f0f89c}\label{main_8c_aa9479c261d65eecedd3d9582f7f0f89c} 
+UART\+\_\+\+Handle\+Type\+Def {\bfseries huart2}
+\item 
+\Hypertarget{main_8c_a0f0977c6da0d99202c77c39a92238f4c}\label{main_8c_a0f0977c6da0d99202c77c39a92238f4c} 
+uint8\+\_\+t {\bfseries dimrxbuf} \mbox{[}DIMRXBUF\+\_\+\+SIZE\mbox{]} = \{0\}
+\item 
+\Hypertarget{main_8c_a13b802fcfffb4446c9a9768940bb4438}\label{main_8c_a13b802fcfffb4446c9a9768940bb4438} 
+uint8\+\_\+t {\bfseries dimrxcnt} = 0
+\item 
+\Hypertarget{main_8c_a0091db0f9848fe2513b4f8a2df4dcb9a}\label{main_8c_a0091db0f9848fe2513b4f8a2df4dcb9a} 
+uint8\+\_\+t {\bfseries dimrxbyte}
+\item 
+\Hypertarget{main_8c_a8e57e0b7eeef8e5f3511dc7186ae8b0a}\label{main_8c_a8e57e0b7eeef8e5f3511dc7186ae8b0a} 
+uint8\+\_\+t {\bfseries rec}
+\item 
+\Hypertarget{main_8c_ae8546cdb54a9eb0dd7289b24d765006c}\label{main_8c_ae8546cdb54a9eb0dd7289b24d765006c} 
+uint8\+\_\+t {\bfseries my\+\_\+address}
+\item 
+\Hypertarget{main_8c_abb54e973249258e116150a060bf4362a}\label{main_8c_abb54e973249258e116150a060bf4362a} 
+Tiny\+Frame {\bfseries tfapp}
+\item 
+\Hypertarget{main_8c_a25a89b2354d331c0afdfcd8fa690c42e}\label{main_8c_a25a89b2354d331c0afdfcd8fa690c42e} 
+bool {\bfseries init\+\_\+tf} = false
+\item 
+\Hypertarget{main_8c_a8649fdfafe4f3ed5fa96bb5261379247}\label{main_8c_a8649fdfafe4f3ed5fa96bb5261379247} 
+bool {\bfseries restart} = false
+\item 
+\Hypertarget{main_8c_a834b3df5171161b1971da243022e2276}\label{main_8c_a834b3df5171161b1971da243022e2276} 
+e\+Sys\+State {\bfseries sys\+\_\+state} = INIT
+\item 
+\Hypertarget{main_8c_a6a516c93ce2b2c9e4478fb36fcbd0100}\label{main_8c_a6a516c93ce2b2c9e4478fb36fcbd0100} 
+GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*} {\bfseries LED\+\_\+\+PORT} \mbox{[}4\mbox{]} = \{GPIOB, GPIOB, GPIOB, GPIOB\}
+\item 
+\Hypertarget{main_8c_ad52bcfd704b927d507cd239368894fbc}\label{main_8c_ad52bcfd704b927d507cd239368894fbc} 
+uint16\+\_\+t {\bfseries LED\+\_\+\+PIN} \mbox{[}4\mbox{]} = \{GPIO\+\_\+\+PIN\+\_\+3, GPIO\+\_\+\+PIN\+\_\+4, GPIO\+\_\+\+PIN\+\_\+5, GPIO\+\_\+\+PIN\+\_\+14\}
+\item 
+\Hypertarget{main_8c_a9571f9bb56834c4c6372c2d70c8ef054}\label{main_8c_a9571f9bb56834c4c6372c2d70c8ef054} 
+\mbox{\hyperlink{structs_led_chanel}{s\+Led\+Chanel}} {\bfseries led\+\_\+ch} \mbox{[}4\mbox{]} = \{0\}
+\item 
+\Hypertarget{main_8c_aa32602c8a40ade8d6281d73ece515e20}\label{main_8c_aa32602c8a40ade8d6281d73ece515e20} 
+volatile uint8\+\_\+t {\bfseries selected\+\_\+channel} = 3
+\item 
+\Hypertarget{main_8c_a3022c6f0039b03b0747eafa5fce30ff1}\label{main_8c_a3022c6f0039b03b0747eafa5fce30ff1} 
+volatile uint8\+\_\+t {\bfseries menu\+\_\+activ} = 0
+\item 
+\Hypertarget{main_8c_aa8a89a29b53cfc229e5d8aa6d3fcaa5e}\label{main_8c_aa8a89a29b53cfc229e5d8aa6d3fcaa5e} 
+volatile uint32\+\_\+t {\bfseries menu\+\_\+timer} = 0
+\item 
+\Hypertarget{main_8c_a7c555abe6edec0b9f6b9bbd217eb2794}\label{main_8c_a7c555abe6edec0b9f6b9bbd217eb2794} 
+volatile uint8\+\_\+t {\bfseries toggle\+\_\+state} = 0
+\item 
+\Hypertarget{main_8c_ab0044922b04d932261b6065b7e89b054}\label{main_8c_ab0044922b04d932261b6065b7e89b054} 
+volatile uint8\+\_\+t {\bfseries error\+\_\+state} = 0
+\item 
+\Hypertarget{main_8c_a42edf6d6c7a2844cfdcca26ee15f6812}\label{main_8c_a42edf6d6c7a2844cfdcca26ee15f6812} 
+volatile uint32\+\_\+t {\bfseries last\+\_\+press\+\_\+time} = 0
+\item 
+\Hypertarget{main_8c_aff69b0a5a8e6c7d79bd4d39168ffcf62}\label{main_8c_aff69b0a5a8e6c7d79bd4d39168ffcf62} 
+volatile uint32\+\_\+t {\bfseries last\+\_\+toggle\+\_\+time} = 0
+\item 
+\Hypertarget{main_8c_a4504fa50d59bcb964bf73d547b53cbc8}\label{main_8c_a4504fa50d59bcb964bf73d547b53cbc8} 
+volatile uint32\+\_\+t {\bfseries last\+\_\+check\+\_\+time} = 0
+\item 
+\Hypertarget{main_8c_a447f3f67e8db1624ec73a8b17dc12fa6}\label{main_8c_a447f3f67e8db1624ec73a8b17dc12fa6} 
+volatile uint32\+\_\+t {\bfseries last\+\_\+err\+\_\+toggle\+\_\+time} = 0
+\item 
+\Hypertarget{main_8c_aeba70574800a756cb42dd51a58a044da}\label{main_8c_aeba70574800a756cb42dd51a58a044da} 
+volatile uint32\+\_\+t {\bfseries last\+\_\+increment\+\_\+time} = 0
+\item 
+\Hypertarget{main_8c_a2efaa1e83f8eeab8531d4d55f9401491}\label{main_8c_a2efaa1e83f8eeab8531d4d55f9401491} 
+uint8\+\_\+t {\bfseries button\+\_\+ok\+\_\+prev} = 0
+\item 
+\Hypertarget{main_8c_a694463b26da96ef9b5689b5c6ac0fe96}\label{main_8c_a694463b26da96ef9b5689b5c6ac0fe96} 
+uint8\+\_\+t {\bfseries button\+\_\+up\+\_\+prev} = 0
+\item 
+\Hypertarget{main_8c_a263e541c1c496a55aab5ac97650e59d5}\label{main_8c_a263e541c1c496a55aab5ac97650e59d5} 
+uint8\+\_\+t {\bfseries button\+\_\+down\+\_\+prev} = 0
+\item 
+\Hypertarget{main_8c_ac7c4860b47674f6bb351f6875e50533f}\label{main_8c_ac7c4860b47674f6bb351f6875e50533f} 
+uint8\+\_\+t {\bfseries received}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\+: Main program body 
+
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+Copyright (c) 2025 STMicroelectronics. All rights reserved.
+
+This software is licensed under terms that can be found in the LICENSE file in the root directory of this software component. If no LICENSE file comes with this software, it is provided AS-\/\+IS. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8c_a263f847472d31e72f31d7f9c3beed950}\index{main.c@{main.c}!DIMMER\_GET\_Listener@{DIMMER\_GET\_Listener}}
+\index{DIMMER\_GET\_Listener@{DIMMER\_GET\_Listener}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{DIMMER\_GET\_Listener()}{DIMMER\_GET\_Listener()}}
+{\footnotesize\ttfamily \label{main_8c_a263f847472d31e72f31d7f9c3beed950} 
+TF\+\_\+\+Result DIMMER\+\_\+\+GET\+\_\+\+Listener (\begin{DoxyParamCaption}\item[{Tiny\+Frame \texorpdfstring{$\ast$}{*}}]{tf}{, }\item[{TF\+\_\+\+Msg \texorpdfstring{$\ast$}{*}}]{msg}{}\end{DoxyParamCaption})}
+
+
+
+Prati komunikaciju za DIMMER\+\_\+\+GET tipu kanala za zahtjev o statusu kanala dimera. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em } & \\
+\hline
+\end{DoxyParams}
+retval \Hypertarget{main_8c_a57ff2a75a573be3928f521cf279ad0c5}\index{main.c@{main.c}!DIMMER\_RESET\_Listener@{DIMMER\_RESET\_Listener}}
+\index{DIMMER\_RESET\_Listener@{DIMMER\_RESET\_Listener}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{DIMMER\_RESET\_Listener()}{DIMMER\_RESET\_Listener()}}
+{\footnotesize\ttfamily \label{main_8c_a57ff2a75a573be3928f521cf279ad0c5} 
+TF\+\_\+\+Result DIMMER\+\_\+\+RESET\+\_\+\+Listener (\begin{DoxyParamCaption}\item[{Tiny\+Frame \texorpdfstring{$\ast$}{*}}]{tf}{, }\item[{TF\+\_\+\+Msg \texorpdfstring{$\ast$}{*}}]{msg}{}\end{DoxyParamCaption})}
+
+
+
+Prati komunikaciju za DIMMER\+\_\+\+RESET tipu kanala za softverski restart jednog kanala dimera. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em } & \\
+\hline
+\end{DoxyParams}
+retval \Hypertarget{main_8c_a8a2a679b9757e95bc004a088752e3691}\index{main.c@{main.c}!DIMMER\_RESTART\_Listener@{DIMMER\_RESTART\_Listener}}
+\index{DIMMER\_RESTART\_Listener@{DIMMER\_RESTART\_Listener}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{DIMMER\_RESTART\_Listener()}{DIMMER\_RESTART\_Listener()}}
+{\footnotesize\ttfamily \label{main_8c_a8a2a679b9757e95bc004a088752e3691} 
+TF\+\_\+\+Result DIMMER\+\_\+\+RESTART\+\_\+\+Listener (\begin{DoxyParamCaption}\item[{Tiny\+Frame \texorpdfstring{$\ast$}{*}}]{tf}{, }\item[{TF\+\_\+\+Msg \texorpdfstring{$\ast$}{*}}]{msg}{}\end{DoxyParamCaption})}
+
+
+
+Prati komunikaciju za DIMMER\+\_\+\+RESTART tipu kanala za softverski restart modula dimera ciji je adresirani kanal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em } & \\
+\hline
+\end{DoxyParams}
+retval \Hypertarget{main_8c_a6250e9748431a13eea2a0f15031d2662}\index{main.c@{main.c}!DIMMER\_SET\_Listener@{DIMMER\_SET\_Listener}}
+\index{DIMMER\_SET\_Listener@{DIMMER\_SET\_Listener}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{DIMMER\_SET\_Listener()}{DIMMER\_SET\_Listener()}}
+{\footnotesize\ttfamily \label{main_8c_a6250e9748431a13eea2a0f15031d2662} 
+TF\+\_\+\+Result DIMMER\+\_\+\+SET\+\_\+\+Listener (\begin{DoxyParamCaption}\item[{Tiny\+Frame \texorpdfstring{$\ast$}{*}}]{tf}{, }\item[{TF\+\_\+\+Msg \texorpdfstring{$\ast$}{*}}]{msg}{}\end{DoxyParamCaption})}
+
+
+
+Prati komunikaciju za DIMMER\+\_\+\+SET tipu kanala za podešavanje nove vrijednosti izlaza dimera. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em } & \\
+\hline
+\end{DoxyParams}
+retval \Hypertarget{main_8c_a40565cc92a519e150ee1a5ac8ac42592}\index{main.c@{main.c}!DIMMER\_SETUP\_Listener@{DIMMER\_SETUP\_Listener}}
+\index{DIMMER\_SETUP\_Listener@{DIMMER\_SETUP\_Listener}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{DIMMER\_SETUP\_Listener()}{DIMMER\_SETUP\_Listener()}}
+{\footnotesize\ttfamily \label{main_8c_a40565cc92a519e150ee1a5ac8ac42592} 
+TF\+\_\+\+Result DIMMER\+\_\+\+SETUP\+\_\+\+Listener (\begin{DoxyParamCaption}\item[{Tiny\+Frame \texorpdfstring{$\ast$}{*}}]{tf}{, }\item[{TF\+\_\+\+Msg \texorpdfstring{$\ast$}{*}}]{msg}{}\end{DoxyParamCaption})}
+
+
+
+Prati komunikaciju na DIMMER\+\_\+\+SETUP tipu kanala za podešavanje novih postavki dimera. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em } & \\
+\hline
+\end{DoxyParams}
+retval \Hypertarget{main_8c_a1730ffe1e560465665eb47d9264826f9}\index{main.c@{main.c}!Error\_Handler@{Error\_Handler}}
+\index{Error\_Handler@{Error\_Handler}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{Error\_Handler()}{Error\_Handler()}}
+{\footnotesize\ttfamily \label{main_8c_a1730ffe1e560465665eb47d9264826f9} 
+void Error\+\_\+\+Handler (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+This function is executed in case of error occurrence. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a36d38b47587e673719ebf10bc8c3e6e1}\index{main.c@{main.c}!get\_address@{get\_address}}
+\index{get\_address@{get\_address}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{get\_address()}{get\_address()}}
+{\footnotesize\ttfamily \label{main_8c_a36d38b47587e673719ebf10bc8c3e6e1} 
+void get\+\_\+address (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+podesi adresu modula dimera na busu prema poziciji DIP switcha 
+
+
+\begin{DoxyParams}{Parameters}
+{\em $<$br$>$} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em } & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a2c02ce7bd2ebe205dc158744ed04473f}\index{main.c@{main.c}!get\_state@{get\_state}}
+\index{get\_state@{get\_state}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{get\_state()}{get\_state()}}
+{\footnotesize\ttfamily \label{main_8c_a2c02ce7bd2ebe205dc158744ed04473f} 
+uint8\+\_\+t get\+\_\+state (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{ch}{}\end{DoxyParamCaption})}
+
+
+
+trazi stanje jednog dimera 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ucitani} & su u strukturu iz dimera value, ramp, temp, temp\+\_\+limit, state \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & = odgovor potvrdan / 1 = nije potvrdan \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a0e0456ea96d55db31de947fb3e954f18}\index{main.c@{main.c}!HAL\_UART\_ErrorCallback@{HAL\_UART\_ErrorCallback}}
+\index{HAL\_UART\_ErrorCallback@{HAL\_UART\_ErrorCallback}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{HAL\_UART\_ErrorCallback()}{HAL\_UART\_ErrorCallback()}}
+{\footnotesize\ttfamily \label{main_8c_a0e0456ea96d55db31de947fb3e954f18} 
+void HAL\+\_\+\+UART\+\_\+\+Error\+Callback (\begin{DoxyParamCaption}\item[{UART\+\_\+\+Handle\+Type\+Def \texorpdfstring{$\ast$}{*}}]{huart}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em } & \\
+\hline
+\end{DoxyParams}
+retval \Hypertarget{main_8c_ae494a9643f29b87d6d81e5264e60e57b}\index{main.c@{main.c}!HAL\_UART\_RxCpltCallback@{HAL\_UART\_RxCpltCallback}}
+\index{HAL\_UART\_RxCpltCallback@{HAL\_UART\_RxCpltCallback}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{HAL\_UART\_RxCpltCallback()}{HAL\_UART\_RxCpltCallback()}}
+{\footnotesize\ttfamily \label{main_8c_ae494a9643f29b87d6d81e5264e60e57b} 
+void HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback (\begin{DoxyParamCaption}\item[{UART\+\_\+\+Handle\+Type\+Def \texorpdfstring{$\ast$}{*}}]{huart}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em } & \\
+\hline
+\end{DoxyParams}
+retval \Hypertarget{main_8c_abcdf9b59049eccbc87d54042f9235b1a}\index{main.c@{main.c}!HAL\_UART\_TxCpltCallback@{HAL\_UART\_TxCpltCallback}}
+\index{HAL\_UART\_TxCpltCallback@{HAL\_UART\_TxCpltCallback}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{HAL\_UART\_TxCpltCallback()}{HAL\_UART\_TxCpltCallback()}}
+{\footnotesize\ttfamily \label{main_8c_abcdf9b59049eccbc87d54042f9235b1a} 
+void HAL\+\_\+\+UART\+\_\+\+Tx\+Cplt\+Callback (\begin{DoxyParamCaption}\item[{UART\+\_\+\+Handle\+Type\+Def \texorpdfstring{$\ast$}{*}}]{huart}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em } & \\
+\hline
+\end{DoxyParams}
+retval \Hypertarget{main_8c_a80c36d7310c93df8f1779c7665783525}\index{main.c@{main.c}!handle\_buttons@{handle\_buttons}}
+\index{handle\_buttons@{handle\_buttons}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{handle\_buttons()}{handle\_buttons()}}
+{\footnotesize\ttfamily \label{main_8c_a80c36d7310c93df8f1779c7665783525} 
+void handle\+\_\+buttons (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+reaguj na pritisak tastera na prednjem panelu modula 
+
+
+\begin{DoxyParams}{Parameters}
+{\em $<$br$>$} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em } & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a840291bc02cba5474a4cb46a9b9566fe}\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{main_8c_a840291bc02cba5474a4cb46a9b9566fe} 
+int main (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+The application entry point. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em int} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a8895f8ebe73ecfe8a66154cf8728e664}\index{main.c@{main.c}!map\_dimmer\_value@{map\_dimmer\_value}}
+\index{map\_dimmer\_value@{map\_dimmer\_value}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{map\_dimmer\_value()}{map\_dimmer\_value()}}
+{\footnotesize\ttfamily \label{main_8c_a8895f8ebe73ecfe8a66154cf8728e664} 
+uint16\+\_\+t map\+\_\+dimmer\+\_\+value (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dimmer\+\_\+value}{, }\item[{uint16\+\_\+t}]{lower\+\_\+limit}{, }\item[{uint16\+\_\+t}]{upper\+\_\+limit}{}\end{DoxyParamCaption})}
+
+
+
+Mapiranje vrednosti izmedu 1 i 99 u raspon 0\texorpdfstring{$\sim$}{\string~}1000, ulazni 0 i 100 se odmah vracaju kao 0 i 1000. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uint8\+\_\+t} & dimmer\+\_\+value je ulazna vrijednost 0\texorpdfstring{$\sim$}{\string~}100, uint16\+\_\+t lower\+\_\+limit je minimalna izlazna vrijednost za ulaznu 1 uint16\+\_\+t upper\+\_\+limit je maksimalna izlazna vrijednost za ulaznu 99 \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0\texorpdfstring{$\sim$}{\string~}1000} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a7546b590d13b2ec7226c884d333a7900}\index{main.c@{main.c}!map\_hi2lo@{map\_hi2lo}}
+\index{map\_hi2lo@{map\_hi2lo}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{map\_hi2lo()}{map\_hi2lo()}}
+{\footnotesize\ttfamily \label{main_8c_a7546b590d13b2ec7226c884d333a7900} 
+uint8\+\_\+t map\+\_\+hi2lo (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{in\+\_\+value}{, }\item[{uint16\+\_\+t}]{in\+\_\+min}{, }\item[{uint16\+\_\+t}]{in\+\_\+max}{, }\item[{uint8\+\_\+t}]{out\+\_\+min}{, }\item[{uint8\+\_\+t}]{out\+\_\+max}{}\end{DoxyParamCaption})}
+
+
+
+Genericka funkcija za mapiranje ulazne vrednosti iz vece u manju sa limiterima za ulazne i izlazne vrijednosti ovdje se koristi da se vrijednost dimera koja je u rasponu 0\texorpdfstring{$\sim$}{\string~}1000 skalira na vrijednost podešavanja 0\texorpdfstring{$\sim$}{\string~}100\%. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uint16\+\_\+t} & in\+\_\+value je ulazna vrijednost \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em uint8\+\_\+t} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_ad81b6ee3485e14932e670526a8467c34}\index{main.c@{main.c}!map\_lo2hi@{map\_lo2hi}}
+\index{map\_lo2hi@{map\_lo2hi}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{map\_lo2hi()}{map\_lo2hi()}}
+{\footnotesize\ttfamily \label{main_8c_ad81b6ee3485e14932e670526a8467c34} 
+uint16\+\_\+t map\+\_\+lo2hi (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{in\+\_\+value}{, }\item[{uint8\+\_\+t}]{in\+\_\+min}{, }\item[{uint8\+\_\+t}]{in\+\_\+max}{, }\item[{uint16\+\_\+t}]{out\+\_\+min}{, }\item[{uint16\+\_\+t}]{out\+\_\+max}{}\end{DoxyParamCaption})}
+
+
+
+Genericka funkcija za mapiranje ulazne vrednosti iz manjih u vece sa limiterima za ulazne i izlazne vrijednosti. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uint8\+\_\+t} & in\+\_\+value je ulazna vrijednost \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em uint16\+\_\+t} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a834c8f6be17b5c6bfe3e9411dd33ce73}\index{main.c@{main.c}!menu\_logic@{menu\_logic}}
+\index{menu\_logic@{menu\_logic}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{menu\_logic()}{menu\_logic()}}
+{\footnotesize\ttfamily \label{main_8c_a834c8f6be17b5c6bfe3e9411dd33ce73} 
+void menu\+\_\+logic (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+logika korisnickog menija sa led diodama i tasterima na prednjem panelu modula 
+
+
+\begin{DoxyParams}{Parameters}
+{\em $<$br$>$} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em } & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a398391686b9ea170ea943fcae3bb6e80}\index{main.c@{main.c}!refresh\_ch@{refresh\_ch}}
+\index{refresh\_ch@{refresh\_ch}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{refresh\_ch()}{refresh\_ch()}}
+{\footnotesize\ttfamily \label{main_8c_a398391686b9ea170ea943fcae3bb6e80} 
+void refresh\+\_\+ch (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+povremena provjera stanja dimera i podešavanje novih vrijednosti 
+
+
+\begin{DoxyParams}{Parameters}
+{\em $<$br$>$} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em } & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a24ba6dd0fd4e4bbf377fa7543f92dabf}\index{main.c@{main.c}!refresh\_led@{refresh\_led}}
+\index{refresh\_led@{refresh\_led}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{refresh\_led()}{refresh\_led()}}
+{\footnotesize\ttfamily \label{main_8c_a24ba6dd0fd4e4bbf377fa7543f92dabf} 
+void refresh\+\_\+led (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+podesi stanje led dioda na panelu prema vrijednosti izlaza 
+
+
+\begin{DoxyParams}{Parameters}
+{\em $<$br$>$} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em } & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a317226e89dadac956acd8df62fe41e50}\index{main.c@{main.c}!reset\_ch@{reset\_ch}}
+\index{reset\_ch@{reset\_ch}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{reset\_ch()}{reset\_ch()}}
+{\footnotesize\ttfamily \label{main_8c_a317226e89dadac956acd8df62fe41e50} 
+uint8\+\_\+t reset\+\_\+ch (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{ch}{}\end{DoxyParamCaption})}
+
+
+
+resetuj jedan dimera tako da se izlaz postavlja na 0 a rampa i temp.\+limit reinicijalizujui briše status greške 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rampa} & dimera i temperaturni limit kanala dimera \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & = odgovor potvrdan / 1 = nije potvrdan \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a6c7154a8125cdf7a20ad94e54b325450}\index{main.c@{main.c}!restart\_all@{restart\_all}}
+\index{restart\_all@{restart\_all}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{restart\_all()}{restart\_all()}}
+{\footnotesize\ttfamily \label{main_8c_a6c7154a8125cdf7a20ad94e54b325450} 
+void restart\+\_\+all (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+restartuj sve dimere bez inicijalizacije i odgovora 
+
+
+\begin{DoxyParams}{Parameters}
+{\em $<$br$>$} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em } & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a4362317ed3c4e1c899f17dd1b65cbcb6}\index{main.c@{main.c}!restart\_ch@{restart\_ch}}
+\index{restart\_ch@{restart\_ch}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{restart\_ch()}{restart\_ch()}}
+{\footnotesize\ttfamily \label{main_8c_a4362317ed3c4e1c899f17dd1b65cbcb6} 
+uint8\+\_\+t restart\+\_\+ch (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{ch}{}\end{DoxyParamCaption})}
+
+
+
+restartuj jedan dimera bez inicijalizacije t.\+j. svi parametri su 0 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rampa} & dimera i temperaturni limit kanala dimera \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & = odgovor potvrdan / 1 = nije potvrdan \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a6a7e50c9a5fdeb113f022798f3d46f82}\index{main.c@{main.c}!RS485\_Init@{RS485\_Init}}
+\index{RS485\_Init@{RS485\_Init}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{RS485\_Init()}{RS485\_Init()}}
+{\footnotesize\ttfamily \label{main_8c_a6a7e50c9a5fdeb113f022798f3d46f82} 
+void RS485\+\_\+\+Init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em } & \\
+\hline
+\end{DoxyParams}
+retval \Hypertarget{main_8c_a881254d61195fa9aafc6efd29add7e6f}\index{main.c@{main.c}!send@{send}}
+\index{send@{send}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{send()}{send()}}
+{\footnotesize\ttfamily \label{main_8c_a881254d61195fa9aafc6efd29add7e6f} 
+uint8\+\_\+t send (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buf}{, }\item[{uint8\+\_\+t}]{len}{}\end{DoxyParamCaption})}
+
+
+
+pošalji paket dimeru i cekaj odgovor sa više pokušaja 
+
+
+\begin{DoxyParams}{Parameters}
+{\em $<$br$>$} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & = uspješno / 1 = nije uspješno \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a4859b0e3dc6bf95c3a4a58bcfd457ef4}\index{main.c@{main.c}!set\_ramp@{set\_ramp}}
+\index{set\_ramp@{set\_ramp}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{set\_ramp()}{set\_ramp()}}
+{\footnotesize\ttfamily \label{main_8c_a4859b0e3dc6bf95c3a4a58bcfd457ef4} 
+uint8\+\_\+t set\+\_\+ramp (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{ch}{}\end{DoxyParamCaption})}
+
+
+
+podesi rampu promjene izlaza jednog dimera 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ch} & = kanal dimera, ramp \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & = odgovor potvrdan / 1 = nije potvrdan \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a06fcc0c0b03829d94b7c555561f8a2be}\index{main.c@{main.c}!set\_temp@{set\_temp}}
+\index{set\_temp@{set\_temp}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{set\_temp()}{set\_temp()}}
+{\footnotesize\ttfamily \label{main_8c_a06fcc0c0b03829d94b7c555561f8a2be} 
+uint8\+\_\+t set\+\_\+temp (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{ch}{}\end{DoxyParamCaption})}
+
+
+
+podesi temperaturni limit jednog dimera 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ch} & = kanal dimera, temp\+\_\+limit \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & = odgovor potvrdan / 1 = nije potvrdan \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a4f848fed3cdaa0e0337ba00041394086}\index{main.c@{main.c}!set\_value@{set\_value}}
+\index{set\_value@{set\_value}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{set\_value()}{set\_value()}}
+{\footnotesize\ttfamily \label{main_8c_a4f848fed3cdaa0e0337ba00041394086} 
+uint8\+\_\+t set\+\_\+value (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{ch}{}\end{DoxyParamCaption})}
+
+
+
+podesi izlaz jednog dimera 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ch} & = kanal dimera \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & = odgovor potvrdan / 1 = nije potvrdan \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a82da3b70c01568e773a3a4ec85af5de9}\index{main.c@{main.c}!start\_efect@{start\_efect}}
+\index{start\_efect@{start\_efect}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{start\_efect()}{start\_efect()}}
+{\footnotesize\ttfamily \label{main_8c_a82da3b70c01568e773a3a4ec85af5de9} 
+void start\+\_\+efect (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+logika korisnickog menija sa led diodama i tasterima na prednjem panelu modula 
+
+
+\begin{DoxyParams}{Parameters}
+{\em $<$br$>$} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em } & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a70af21c671abfcc773614a9a4f63d920}\index{main.c@{main.c}!SystemClock\_Config@{SystemClock\_Config}}
+\index{SystemClock\_Config@{SystemClock\_Config}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{SystemClock\_Config()}{SystemClock\_Config()}}
+{\footnotesize\ttfamily \label{main_8c_a70af21c671abfcc773614a9a4f63d920} 
+void System\+Clock\+\_\+\+Config (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+System Clock Configuration. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+Initializes the RCC Oscillators according to the specified parameters in the RCC\+\_\+\+Osc\+Init\+Type\+Def structure.
+
+Initializes the CPU, AHB and APB buses clocks\Hypertarget{main_8c_ac5997fdb789fa4e3f5c53be718bb9881}\index{main.c@{main.c}!TF\_WriteImpl@{TF\_WriteImpl}}
+\index{TF\_WriteImpl@{TF\_WriteImpl}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{TF\_WriteImpl()}{TF\_WriteImpl()}}
+{\footnotesize\ttfamily \label{main_8c_ac5997fdb789fa4e3f5c53be718bb9881} 
+void TF\+\_\+\+Write\+Impl (\begin{DoxyParamCaption}\item[{Tiny\+Frame \texorpdfstring{$\ast$}{*}}]{tf}{, }\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buff}{, }\item[{uint32\+\_\+t}]{len}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em } & \\
+\hline
+\end{DoxyParams}
+retval 
